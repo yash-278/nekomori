@@ -1,58 +1,22 @@
 {
   "name": "nekomori",
-  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@craco/craco": "^6.1.1",
-    "@headlessui/react": "^0.3.2",
-    "@tailwindcss/aspect-ratio": "^0.2.0",
-    "@testing-library/jest-dom": "^5.11.10",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.21.1",
-    "bootstrap": "^4.6.0",
-    "humanize-duration": "^3.25.1",
-    "marked": "^2.0.1",
-    "node-sass": "^5.0.0",
-    "react": "^17.0.2",
-    "react-bootstrap": "^1.5.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.3",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "web-vitals": "^1.1.1"
-  },
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "^2.0.4",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.35",
-    "stylelint-config-recommended": "^4.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4"
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.1.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
   }
 }
