@@ -13,8 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel-plugin for production.
  */
 const documents = {
-    "\n    query getAnime($page: Int!, $perPage: Int!) {\n      Page(page: $page, perPage: $perPage) {\n        media {\n          ...MediaFields\n        }\n      }\n    }\n  ": types.GetAnimeDocument,
-    "\n  fragment MediaFields on Media {\n    id\n    title {\n      romaji\n      english\n      native\n    }\n  }\n": types.MediaFieldsFragmentDoc,
+    "\n    query getAnime($season: MediaSeason!, $seasonYear: Int!) {\n      Page(page: 1, perPage: 15) {\n        pageInfo {\n          total\n          currentPage\n          lastPage\n          hasNextPage\n          perPage\n        }\n        media(season: $season, type: ANIME, seasonYear: $seasonYear, sort: POPULARITY_DESC) {\n          ...MediaFields\n        }\n      }\n    }\n  ": types.GetAnimeDocument,
+    "\n  fragment MediaFields on Media {\n    id\n    status\n    episodes\n    coverImage {\n      large\n      color\n    }\n    studios {\n      edges {\n        id\n        isMain @include(if: true)\n        node {\n          name\n        }\n      }\n    }\n    source\n    description\n    nextAiringEpisode {\n      id\n      episode\n      timeUntilAiring\n    }\n    title {\n      english\n      romaji\n    }\n    startDate {\n      year\n      month\n      day\n    }\n    genres\n  }\n": types.MediaFieldsFragmentDoc,
 };
 
 /**
@@ -34,11 +34,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query getAnime($page: Int!, $perPage: Int!) {\n      Page(page: $page, perPage: $perPage) {\n        media {\n          ...MediaFields\n        }\n      }\n    }\n  "): (typeof documents)["\n    query getAnime($page: Int!, $perPage: Int!) {\n      Page(page: $page, perPage: $perPage) {\n        media {\n          ...MediaFields\n        }\n      }\n    }\n  "];
+export function graphql(source: "\n    query getAnime($season: MediaSeason!, $seasonYear: Int!) {\n      Page(page: 1, perPage: 15) {\n        pageInfo {\n          total\n          currentPage\n          lastPage\n          hasNextPage\n          perPage\n        }\n        media(season: $season, type: ANIME, seasonYear: $seasonYear, sort: POPULARITY_DESC) {\n          ...MediaFields\n        }\n      }\n    }\n  "): (typeof documents)["\n    query getAnime($season: MediaSeason!, $seasonYear: Int!) {\n      Page(page: 1, perPage: 15) {\n        pageInfo {\n          total\n          currentPage\n          lastPage\n          hasNextPage\n          perPage\n        }\n        media(season: $season, type: ANIME, seasonYear: $seasonYear, sort: POPULARITY_DESC) {\n          ...MediaFields\n        }\n      }\n    }\n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  fragment MediaFields on Media {\n    id\n    title {\n      romaji\n      english\n      native\n    }\n  }\n"): (typeof documents)["\n  fragment MediaFields on Media {\n    id\n    title {\n      romaji\n      english\n      native\n    }\n  }\n"];
+export function graphql(source: "\n  fragment MediaFields on Media {\n    id\n    status\n    episodes\n    coverImage {\n      large\n      color\n    }\n    studios {\n      edges {\n        id\n        isMain @include(if: true)\n        node {\n          name\n        }\n      }\n    }\n    source\n    description\n    nextAiringEpisode {\n      id\n      episode\n      timeUntilAiring\n    }\n    title {\n      english\n      romaji\n    }\n    startDate {\n      year\n      month\n      day\n    }\n    genres\n  }\n"): (typeof documents)["\n  fragment MediaFields on Media {\n    id\n    status\n    episodes\n    coverImage {\n      large\n      color\n    }\n    studios {\n      edges {\n        id\n        isMain @include(if: true)\n        node {\n          name\n        }\n      }\n    }\n    source\n    description\n    nextAiringEpisode {\n      id\n      episode\n      timeUntilAiring\n    }\n    title {\n      english\n      romaji\n    }\n    startDate {\n      year\n      month\n      day\n    }\n    genres\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

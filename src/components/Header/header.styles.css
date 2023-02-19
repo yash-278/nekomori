@@ -1,0 +1,12 @@
+.navbar-brand {
+  font-size: 24px !important;
+  font-weight: bold;
+}
+
+.isActive {
+  color: #d1d5db !important;
+}
+
+.notActive {
+  color: #6b7280 !important;
+}

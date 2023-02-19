@@ -1,0 +1,7 @@
+.navi {
+  box-shadow: 0px 20px 20px 25px rgba(17, 24, 39, 0.9);
+}
+
+.navi-left {
+  box-shadow: -30px 20px 20px 25px rgba(17, 24, 39, 0.9);
+}
