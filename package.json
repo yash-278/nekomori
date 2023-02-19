@@ -1,58 +1,53 @@
 {
   "name": "nekomori",
-  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@craco/craco": "^6.1.1",
-    "@headlessui/react": "^0.3.2",
-    "@tailwindcss/aspect-ratio": "^0.2.0",
-    "@testing-library/jest-dom": "^5.11.10",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.21.1",
-    "bootstrap": "^4.6.0",
-    "humanize-duration": "^3.25.1",
-    "marked": "^2.0.1",
-    "node-sass": "^5.0.0",
-    "react": "^17.0.2",
-    "react-bootstrap": "^1.5.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.3",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "web-vitals": "^1.1.1"
-  },
+  "version": "0.0.0",
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "start": "vite --host",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "codegen": "graphql-codegen --watch"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@headlessui/react": "^1.7.11",
+    "@material-tailwind/react": "^1.4.2",
+    "@reduxjs/toolkit": "^1.9.2",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tanstack/react-query": "^4.23.0",
+    "@types/redux-logger": "^3.0.9",
+    "flowbite": "^1.6.3",
+    "flowbite-react": "^0.3.8",
+    "graphql": "^16.6.0",
+    "humanize-duration": "^3.28.0",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.0",
+    "redux-logger": "^3.0.6",
+    "sort-by": "^1.2.0",
+    "vite-plugin-svgr": "^2.4.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss7-compat": "^2.0.4",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.35",
-    "stylelint-config-recommended": "^4.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4"
+    "@graphql-codegen/cli": "^3.0.0",
+    "@graphql-codegen/client-preset": "^2.0.0",
+    "@types/humanize-duration": "^3.27.1",
+    "@types/node": "^18.14.0",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.0",
+    "vite-plugin-checker": "^0.5.0",
+    "vitest": "^0.28.5"
   }
 }

@@ -1,11 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&display=swap");
-
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css");
-
-* {
-  text-decoration: none !important;
-}
-/* ./src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
