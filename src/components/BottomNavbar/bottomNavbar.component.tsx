@@ -21,7 +21,7 @@ export default function BottomNavbar() {
   return (
     <div className="lg:invisible fixed w-full bottom-0 text-white">
       <div className="shadow-2xl flex">
-        <nav className="mx-2 my-2 py-2 bg-gray-800 rounded flex-1 navi-left z-10">
+        <nav className="mx-2 my-2 py-2 bg-accent-gray-darkest rounded flex-1 navi-left z-10">
           <ul className="flex justify-evenly text-center">
             <li>
               <Link
@@ -82,7 +82,7 @@ export default function BottomNavbar() {
           </ul>
         </nav>
         <div
-          className="mr-2.5 my-2 px-3 text-white bg-gray-800 rounded navi z-0"
+          className="mr-2.5 my-2 px-3 text-white bg-accent-gray-darkest rounded navi z-0"
           onClick={() => navStateChange()}
         >
           <button className="h-full flex items-center">

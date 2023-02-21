@@ -15,7 +15,7 @@ function Header() {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex h-16 text-gray-500 bg-gray-800 justify-between items-center py-3 lg:py-5 px-4 lg:px-12">
+    <div className="flex h-16 text-gray-500 bg-accent-gray-darkest justify-between items-center py-3 lg:py-5 px-4 lg:px-12">
       <div>
         <Link
           to="/"

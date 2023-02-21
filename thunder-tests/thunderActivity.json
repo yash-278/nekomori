@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "_id": "aa6ac3e1-6576-4768-a7dc-369f539f32a2",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://graphql.anilist.co",
+    "url": "https://graphql.anilist.co",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2023-02-19T13:25:37.952Z",
+    "modified": "2023-02-19T13:30:20.016Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "graphql",
+      "raw": "",
+      "form": [],
+      "graphql": {
+        "query": "query BrowseAnime($season: MediaSeason!, $seasonYear: Int!) {\n  Page(page: 1, perPage: 15) {\n    pageInfo {\n      total\n      currentPage\n      lastPage\n      hasNextPage\n      perPage\n    }\n    media(\n      season: $season\n      type: ANIME\n      seasonYear: $seasonYear\n      sort: POPULARITY_DESC\n    ) {\n      ...MediaFields\n    }\n  }\n}\n\nfragment MediaFields on Media {\n  id\n  status\n  episodes\n  coverImage {\n    large\n    color\n  }\n  studios {\n    edges {\n      id\n      isMain @include(if: true)\n      node {\n        name\n      }\n    }\n  }\n  source\n  description\n  nextAiringEpisode {\n    id\n    episode\n    timeUntilAiring\n  }\n  title {\n    english\n    romaji\n  }\n  startDate {\n    year\n    month\n    day\n  }\n  genres\n}\n",
+        "variables": "{\n  \"season\":\"FALL\",\n  \"seasonYear\": 2022\n}"
+      }
+    },
+    "tests": []
+  }
+]

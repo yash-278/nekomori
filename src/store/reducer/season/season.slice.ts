@@ -1,6 +1,5 @@
-import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MediaSeason } from "../../../gql/graphql";
-import { RootState } from "../../store/store";
 
 export interface SeasonState {
   currentSeason: MediaSeason;
@@ -28,6 +27,7 @@ export const seasonSlice = createSlice({
       state.currentStatus = action.payload;
     },
   },
+  extraReducers(builder) {},
 });
 
 function getCurrentSeason(): SeasonState["currentSeason"] {

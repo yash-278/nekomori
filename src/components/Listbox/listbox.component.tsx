@@ -28,9 +28,9 @@ export default function MyListbox({
         <Listbox as="div" className="space-y-1" value={selectedValue} onChange={setSelectedValue}>
           {({ open }) => (
             <div className="flex justify-between items-center">
-              <div className="relative w-32">
+              <div className="relative w-36">
                 <span className="inline-block w-full rounded-md shadow-sm">
-                  <Listbox.Button className="cursor-default relative w-full rounded-md border-none text-white border-gray-700 bg-gray-700 pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-gray-800 transition ease-in-out duration-150 text-xs md:text-sm leading-5">
+                  <Listbox.Button className="cursor-default relative w-full rounded-md border-none text-white border-accent-gray-darker bg-accent-gray-darker pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-accent-gray-darkest transition ease-in-out duration-150 text-base md:text-md leading-5">
                     <span className="block truncate">{selectedValue}</span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <svg
@@ -55,19 +55,19 @@ export default function MyListbox({
                   leave="transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
-                  className="absolute mt-1 w-full rounded-md lg:bg-gray-700 bg-gray-800 shadow-lg z-50"
+                  className="absolute mt-1 w-full rounded-md lg:bg-accent-gray-darker bg-accent-gray-darkest shadow-lg z-50"
                 >
                   <Listbox.Options
                     static
-                    className="max-h-60 rounded-md py-1 shadow-xs overflow-auto bg-gray-800 shadow-2xl"
+                    className="max-h-60 rounded-md py-1 shadow-xs overflow-auto bg-accent-gray-darkest shadow-2xl"
                   >
                     {rangeOfValues.map((currentValue) => (
                       <Listbox.Option key={currentValue} value={currentValue}>
                         {({ selected, active }) => (
                           <div
                             className={`${
-                              active ? "text-gray-100 bg-gray-700" : "text-gray-400"
-                            } cursor-default select-none relative py-2 pl-8 pr-4 text-xs md:text-sm`}
+                              active ? "text-gray-100 bg-accent-gray-darker" : "text-gray-400"
+                            } cursor-default select-none relative py-2 pl-8 pr-4 text-base md:text-md`}
                           >
                             <span
                               className={`${

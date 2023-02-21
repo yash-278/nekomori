@@ -9,7 +9,7 @@ import "./browse.styles.css";
 function Browse() {
   const { currentSeason, currentYear } = useAppSelector((state) => state.season);
 
-  const { data, isLoading, isRefetching, isError, refetch } = useQuery(
+  const { data, isLoading, isRefetching, isError } = useQuery(
     ["browse", currentSeason, currentYear],
     async () =>
       anilistClient.request(getAnime, {

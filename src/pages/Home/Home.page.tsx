@@ -10,7 +10,7 @@ import { setSeason } from "../../store/reducer/season/season.slice";
 
 const Home = () => {
   return (
-    <div className="App bg-gray-900 min-h-screen text-white">
+    <div className="App bg-accent-gray-black min-h-screen text-white">
       <Header />
       <div>
         <Outlet />
