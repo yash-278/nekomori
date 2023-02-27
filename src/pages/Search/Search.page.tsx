@@ -1,32 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import { TextInput } from "flowbite-react";
 import { GoSettings } from "react-icons/go";
 import { Link } from "react-router-dom";
-import CardGrid from "../../components/CardGrid/CardGrid.component";
 import MyListbox from "../../components/Listbox/listbox.component";
-import { useFragment } from "../../gql";
-import { MediaSort, MediaType } from "../../gql/graphql";
 import { useAppSelector } from "../../hooks/customRedux";
-import { getTrendingAnime, MediaCardFragment } from "../../queries/getTrendingAnime";
-import { anilistClient } from "../../queries/graphqlClient";
-import { SearchState, setSearchType } from "../../store/reducer/search/search.slice";
+import { setSearchType } from "../../store/reducer/search/search.slice";
+import DefaultSearch from "./DefaultSearch.component";
 const Search = () => {
   const { search, season, type } = useAppSelector((state) => state.search);
 
   const searchTypes = ["Anime", "Manga", "Characters", "People"];
-
-  const {
-    data: trendingAnime,
-    isLoading,
-    isRefetching,
-    isError,
-  } = useQuery(["trending", "anime"], async () =>
-    anilistClient.request(getTrendingAnime, {
-      page: 1,
-      sort: [MediaSort.TrendingDesc, MediaSort.PopularityDesc],
-      type: MediaType.Anime,
-    })
-  );
 
   // Get type of trendingAnime.Page.media
   return (
@@ -61,15 +42,9 @@ const Search = () => {
           <GoSettings />
         </button>
       </div>
-      {trendingAnime?.Page?.media && (
-        <CardGrid
-          title="Trending Now"
-          link="/"
-          linkTitle="View All"
-          media={trendingAnime.Page.media}
-          slice={6}
-        />
-      )}
+
+      <DefaultSearch />
+
       {/* Search Results */}
     </div>
   );

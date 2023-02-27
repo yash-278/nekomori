@@ -1,31 +1,28 @@
-import { QueryFunction, useQuery } from "@tanstack/react-query";
-import { DocumentNode, TypedQueryDocumentNode } from "graphql";
-import React from "react";
 import { Link } from "react-router-dom";
-import { FragmentType } from "../../gql";
 import { MediaCardFieldsFragment } from "../../gql/graphql";
-import { getTrendingAnime, MediaCardFragment } from "../../queries/getTrendingAnime";
-import { anilistClient } from "../../queries/graphqlClient";
 import VerticalCard from "../Card/VerticalCard/VerticalCard.component";
+import VerticalCardLoader from "../Card/VerticalCard/VerticalCard.loader";
+import { v4 as uuidv4 } from "uuid";
 
 export type CardGridProps = {
   title: string;
   link: string;
   linkTitle: string;
   slice?: number;
+  loading: {
+    isLoading: boolean;
+    isRefetching: boolean;
+  };
   // Pass any dynamic array of fragments
-  media: (
-    | ({
-        __typename?: "Media" | undefined;
-      } & {
-        " $fragmentRefs"?:
-          | {
-              MediaCardFieldsFragment: MediaCardFieldsFragment;
-            }
-          | undefined;
-      })
+  media:
+    | (
+        | ({ __typename?: "Media" | undefined } & {
+            " $fragmentRefs"?: { MediaCardFieldsFragment: MediaCardFieldsFragment } | undefined;
+          })
+        | null
+      )[]
     | null
-  )[];
+    | undefined;
 };
 
 const CardGrid = (props: CardGridProps) => {
@@ -38,10 +35,14 @@ const CardGrid = (props: CardGridProps) => {
         </Link>
       </div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        {/* Loading */}
+        {props.loading.isLoading &&
+          [...Array(props.slice || 6)].map((e, i) => <VerticalCardLoader key={uuidv4()} />)}
+
         {props.media &&
           props.media
             .slice(0, props.slice || props.media.length)
-            .map((item, index) => item && <VerticalCard key={index} media={item} />)}
+            .map((item, index) => item && <VerticalCard key={uuidv4()} media={item} />)}
       </div>
     </div>
   );

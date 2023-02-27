@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MediaSeason } from "../../../gql/graphql";
+import { getCurrentSeason } from "../../../utils/season";
 
 export interface SeasonState {
   currentSeason: MediaSeason;
@@ -29,24 +30,6 @@ export const seasonSlice = createSlice({
   },
   extraReducers(builder) {},
 });
-
-function getCurrentSeason(): SeasonState["currentSeason"] {
-  const date = new Date();
-  const month = date.getMonth();
-  let season = "";
-
-  if (month >= 11 || month <= 1) {
-    season = MediaSeason.Winter;
-  } else if (month >= 2 && month <= 4) {
-    season = MediaSeason.Spring;
-  } else if (month >= 5 && month <= 7) {
-    season = MediaSeason.Summer;
-  } else {
-    season = MediaSeason.Fall;
-  }
-
-  return season as SeasonState["currentSeason"];
-}
 
 export const { setSeason, setYear, setStatus } = seasonSlice.actions;
 

@@ -4,9 +4,9 @@ import { MediaCardFragment } from "../../../queries/getTrendingAnime";
 const VerticalCard = (props: { media: FragmentType<typeof MediaCardFragment> }) => {
   const media = useFragment(MediaCardFragment, props.media);
   return (
-    <div className="">
+    <div className="elementToFadeInAndOut transition-all duration-300 ease-in-out">
       <div className="aspect-w-3 aspect-h-4 drop-shadow-xl">
-        <img src={media?.coverImage?.large || ""} alt="" className="rounded-md" />
+        <img src={media?.coverImage?.large || ""} alt="" className="rounded-md object-cover" />
       </div>
 
       <div className="mt-2">
