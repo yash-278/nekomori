@@ -25,7 +25,7 @@ function HorizontalCard(props: { anime: FragmentType<typeof MediaFragment> }) {
   }
 
   return (
-    <div className="bg-gray-800 h-60 md:h-64 flex w-auto rounded-md text-gray-300 overflow-hidden transition duration-300 ease-in-out transform hover:scale-101 hover:shadow-2xl elementToFadeInAndOut">
+    <div className="bg-accent-gray-darkest h-60 md:h-64 flex w-auto rounded-md text-gray-300 overflow-hidden transition duration-300 ease-in-out transform hover:scale-101 hover:shadow-2xl elementToFadeInAndOut">
       {/* Card Image */}
       <div className="relative w-64 aspect-w-16 aspect-h-1">
         <img
@@ -35,7 +35,7 @@ function HorizontalCard(props: { anime: FragmentType<typeof MediaFragment> }) {
         />
         <a href={`https://anilist.co/anime/${anime.id}/`} rel="noreferrer" target="_blank">
           {/*Card Studio & Title */}
-          <div className="absolute inset-x-0 bottom-0 bg-gray-800 bg-opacity-90 w-full py-2 px-2 rounded-bl-md studio">
+          <div className="absolute inset-x-0 bottom-0 bg-accent-gray-darkest bg-opacity-90 w-full py-2 px-2 rounded-bl-md studio">
             <h1 className="text-white font-bold text-left text-sm">{getName()}</h1>
             {anime?.studios?.edges && anime.studios.edges[0] ? (
               <p
@@ -65,7 +65,7 @@ function HorizontalCard(props: { anime: FragmentType<typeof MediaFragment> }) {
             id="ep-desc"
           ></p>
         </div>
-        <div className="bg-gray-700 text-black py-2 rounded-br-md">
+        <div className="bg-accent-gray-darker text-black py-2 rounded-br-md">
           {anime?.genres?.slice(0, 2).map((genre) => (
             <span
               key={genre}

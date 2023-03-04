@@ -1,85 +1,44 @@
+import { Link, useLocation } from "react-router-dom";
 import "./header.styles.css";
-import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
-import { setSeason, setStatus, setYear } from "../../store/reducer/season/season.slice";
-import MyListbox from "../Listbox/listbox.component";
-import { MediaSeason } from "../../gql/graphql";
-
-const years = Array.from({ length: new Date().getFullYear() + 1 - 2000 + 1 }, (_, index) =>
-  (2000 + index).toString()
-);
+import HeaderLogo from "./headerLogo.component";
+import SearchHeader from "./searchHeader.component";
+import { FaSearch } from "react-icons/fa";
+import { BsFillCalendarWeekFill } from "react-icons/bs";
 
 function Header() {
-  const { currentSeason, currentYear } = useAppSelector((state) => state.season);
+  const pathName = useLocation().pathname;
 
-  const dispatch = useAppDispatch();
+  if (pathName === "/schedule") return <SearchHeader />;
 
   return (
-    <div className="flex h-16 text-gray-500 bg-gray-800 justify-between items-center py-3 lg:py-5 px-4 lg:px-12">
-      <div>
-        <Link
-          to="/"
-          onClick={() => {
-            dispatch(setSeason(MediaSeason.Winter));
-          }}
-          className="text-2xl text-gray-100 font-bold cursor-pointer no-underline hover:text-gray-200 navbar-brand"
-        >
-          Nekomori
+    <div className="flex h-16 items-center justify-between bg-accent-gray-darkest py-3 px-4 text-gray-500 lg:py-5 lg:px-12">
+      <HeaderLogo />
+      <div className="hidden space-x-10 text-center font-semibold lg:flex">
+        <Link to="/" className={`${pathName === "/" ? "isActive" : "notActive"}`}>
+          Home
         </Link>
-      </div>
-      <div className="hidden lg:flex text-center space-x-10 font-semibold">
-        <Link
-          to="/"
-          className={`text-sm ${
-            currentSeason === "WINTER" ? "isActive" : "notActive"
-          } cursor-pointer`}
-          onClick={() => {
-            dispatch(setSeason(MediaSeason.Winter));
-          }}
-        >
-          WINTER <br /> {currentYear}
+        <Link to="/anime" className={`${pathName === "/anime" ? "isActive" : "notActive"}`}>
+          Anime List
         </Link>
-        <Link
-          to="/"
-          className={`text-sm ${
-            currentSeason === "SPRING" ? "isActive" : "notActive"
-          } cursor-pointer`}
-          onClick={() => {
-            dispatch(setSeason(MediaSeason.Spring));
-          }}
-        >
-          SPRING <br /> {currentYear}
+        <Link to="/manga" className={`${pathName === "/manga" ? "isActive" : "notActive"}`}>
+          Manga List
         </Link>
-        <Link
-          to="/"
-          className={`text-sm ${
-            currentSeason === "SUMMER" ? "isActive" : "notActive"
-          } cursor-pointer`}
-          onClick={() => {
-            dispatch(setSeason(MediaSeason.Summer));
-          }}
-        >
-          SUMMER <br /> {currentYear}
+        <Link to="/schedule" className={`${pathName === "/schedule" ? "isActive" : "notActive"}`}>
+          Browse
         </Link>
-        <Link
-          to="/"
-          className={`text-sm ${
-            currentSeason === "FALL" ? "isActive" : "notActive"
-          } cursor-pointer`}
-          onClick={() => {
-            dispatch(setSeason(MediaSeason.Fall));
-          }}
-        >
-          FALL <br /> {currentYear}
+        <Link to="/profile" className={`${pathName === "/profile" ? "isActive" : "notActive"}`}>
+          Profile
         </Link>
       </div>
 
-      <div className="flex">
-        <MyListbox
-          rangeOfValues={years}
-          defaultValue={years[years.length - 2]}
-          setterFunction={(value: string) => dispatch(setYear(value))}
-        />
+      <div className="flex space-x-5">
+        <Link to="/search">
+          <FaSearch size="1.2em" />
+        </Link>
+
+        <Link to="/schedule">
+          <BsFillCalendarWeekFill size="1.2em" />
+        </Link>
       </div>
     </div>
   );
