@@ -2,8 +2,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import Browse from "./pages/Browse/Browse.page";
+import Activity from "./pages/Activity/Activity.Page";
+import Anime from "./pages/Anime/Anime.page";
+import Schedule from "./pages/Schedule/Schedule.page";
 import Home from "./pages/Home/Home.page";
+import Manga from "./pages/Manga/Manga.page";
+import Profile from "./pages/Profile/Profile.page";
 import Search from "./pages/Search/Search.page";
 
 import { store } from "./store/store/store";
@@ -36,8 +40,24 @@ const router = createBrowserRouter([
     element: <Home />,
     children: [
       {
-        path: "/",
-        element: <Browse />,
+        path: "/schedule",
+        element: <Schedule />,
+      },
+      {
+        path: "/activity",
+        element: <Activity />,
+      },
+      {
+        path: "/anime",
+        element: <Anime />,
+      },
+      {
+        path: "/manga",
+        element: <Manga />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },

@@ -1,13 +1,15 @@
 import { GoSettings } from "react-icons/go";
 import { Link } from "react-router-dom";
 import MyListbox from "../../components/Listbox/listbox.component";
-import { useAppSelector } from "../../hooks/customRedux";
+import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import { setSearchType } from "../../store/reducer/search/search.slice";
 import DefaultSearch from "./DefaultSearch.component";
+import { BiCaretLeft } from "react-icons/bi";
+
 const Search = () => {
   const { search, season, type } = useAppSelector((state) => state.search);
-
-  const searchTypes = ["Anime", "Manga", "Characters", "People"];
+  const dispatch = useAppDispatch();
+  const searchTypes = ["ANIME", "MANGA", "CHARACTER", "STAFF"];
 
   // Get type of trendingAnime.Page.media
   return (
@@ -19,15 +21,24 @@ const Search = () => {
         Nekomori
       </Link>
 
-      <div className="flex items-center space-x-5 py-5">
-        <h1 className="text-2xl font-bold">Browse</h1>
-        <MyListbox
-          defaultValue={type}
-          rangeOfValues={searchTypes}
-          setterFunction={(value) => {
-            setSearchType(value);
+      <div className="flex items-center">
+        <BiCaretLeft
+          size="2.2em"
+          onClick={() => {
+            window.history.back();
           }}
+          className="cursor-pointer p-1"
         />
+        <div className="flex items-center space-x-5 py-5">
+          <h1 className="text-2xl font-bold">Browse</h1>
+          <MyListbox
+            defaultValue={type}
+            rangeOfValues={searchTypes}
+            setterFunction={(value) => {
+              dispatch(setSearchType(value));
+            }}
+          />
+        </div>
       </div>
       {/* Search Bar */}
       <div className="flex gap-x-4">

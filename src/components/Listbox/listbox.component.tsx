@@ -24,15 +24,15 @@ export default function MyListbox({
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-full mx-auto">
+      <div className="mx-auto w-full max-w-full">
         <Listbox as="div" className="space-y-1" value={selectedValue} onChange={setSelectedValue}>
           {({ open }) => (
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div className="relative w-36">
                 <span className="inline-block w-full rounded-md shadow-sm">
-                  <Listbox.Button className="cursor-default relative w-full rounded-md border-none text-white border-accent-gray-darker bg-accent-gray-darker pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue focus:border-accent-gray-darkest transition ease-in-out duration-150 text-base md:text-md leading-5">
+                  <Listbox.Button className="focus:shadow-outline-blue md:text-md relative w-full cursor-default rounded-md border-none border-accent-gray-darker bg-accent-gray-darker py-2 pl-3 pr-10 text-left text-sm leading-5 text-white transition duration-150 ease-in-out focus:border-accent-gray-darkest focus:outline-none">
                     <span className="block truncate">{selectedValue}</span>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <svg
                         className="h-5 w-5 text-white"
                         viewBox="0 0 20 20"
@@ -55,19 +55,19 @@ export default function MyListbox({
                   leave="transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
-                  className="absolute mt-1 w-full rounded-md lg:bg-accent-gray-darker bg-accent-gray-darkest shadow-lg z-50"
+                  className="absolute z-50 mt-1 w-full rounded-md bg-accent-gray-darkest shadow-lg lg:bg-accent-gray-darker"
                 >
                   <Listbox.Options
                     static
-                    className="max-h-60 rounded-md py-1 shadow-xs overflow-auto bg-accent-gray-darkest shadow-2xl"
+                    className="shadow-xs max-h-60 overflow-auto rounded-md bg-accent-gray-darkest py-1 shadow-2xl"
                   >
                     {rangeOfValues.map((currentValue) => (
                       <Listbox.Option key={currentValue} value={currentValue}>
                         {({ selected, active }) => (
                           <div
                             className={`${
-                              active ? "text-gray-100 bg-accent-gray-darker" : "text-gray-400"
-                            } cursor-default select-none relative py-2 pl-8 pr-4 text-base md:text-md`}
+                              active ? "bg-accent-gray-darker text-gray-100" : "text-gray-400"
+                            } md:text-md relative cursor-default select-none py-2 pl-8 pr-4 text-sm`}
                           >
                             <span
                               className={`${
