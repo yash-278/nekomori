@@ -46,5 +46,6 @@ module.exports = withMT({
     require("@tailwindcss/aspect-ratio"),
     require("flowbite/plugin"),
     require("prettier-plugin-tailwindcss"),
+    require("@tailwindcss/line-clamp"),
   ],
 });

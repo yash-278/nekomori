@@ -97,10 +97,7 @@ export default function BottomNavbar() {
       <nav className="navi-left z-10 mx-2 my-2 flex-1 rounded bg-accent-gray-darkest py-2">
         <ul className="flex justify-evenly text-center">
           <li>
-            <NavLink
-              to="/activity"
-              className={({ isActive }) => (isActive ? "isActive" : "notActive")}
-            >
+            <NavLink to="/" className={({ isActive }) => (isActive ? "isActive" : "notActive")}>
               <FiActivity className="h-full" size="1.5em" />
             </NavLink>
           </li>

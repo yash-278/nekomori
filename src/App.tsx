@@ -40,12 +40,12 @@ const router = createBrowserRouter([
     element: <Home />,
     children: [
       {
-        path: "/schedule",
-        element: <Schedule />,
+        path: "/",
+        element: <Activity />,
       },
       {
-        path: "/activity",
-        element: <Activity />,
+        path: "/schedule",
+        element: <Schedule />,
       },
       {
         path: "/anime",

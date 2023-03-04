@@ -5,13 +5,13 @@ import VerticalCardLoader from "../Card/VerticalCard/VerticalCard.loader";
 import { v4 as uuidv4 } from "uuid";
 
 export type CardGridProps = {
-  title: string;
-  link: string;
-  linkTitle: string;
+  title?: string;
+  link?: string;
+  linkTitle?: string;
   slice?: number;
   loading: {
     isLoading: boolean;
-    isRefetching: boolean;
+    isRefetching?: boolean;
   };
   // Pass any dynamic array of fragments
   media:
@@ -30,9 +30,11 @@ const CardGrid = (props: CardGridProps) => {
     <div>
       <div className="my-4 flex items-center justify-between">
         <p className="font-bold uppercase tracking-wider text-gray-400">{props.title}</p>
-        <Link to={props.link} className="text-xs font-semibold tracking-wider text-gray-500">
-          {props.linkTitle}
-        </Link>
+        {props.link && (
+          <Link to={props.link} className="text-xs font-semibold tracking-wider text-gray-500">
+            {props.linkTitle}
+          </Link>
+        )}
       </div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {/* Loading */}

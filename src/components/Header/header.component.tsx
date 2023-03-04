@@ -14,7 +14,7 @@ function Header() {
     <div className="flex h-16 items-center justify-between bg-accent-gray-darkest py-3 px-4 text-gray-500 lg:py-5 lg:px-12">
       <HeaderLogo />
       <div className="hidden space-x-10 text-center font-semibold lg:flex">
-        <Link to="/activity" className={`${pathName === "/activity" ? "isActive" : "notActive"}`}>
+        <Link to="/" className={`${pathName === "/" ? "isActive" : "notActive"}`}>
           Home
         </Link>
         <Link to="/anime" className={`${pathName === "/anime" ? "isActive" : "notActive"}`}>
