@@ -24,10 +24,6 @@ const SearchResults = ({
   searchParams,
   resetInput,
 }: SearchResultsProps) => {
-  trendingAnime?.pages.forEach((page) => {
-    console.log(page);
-  });
-
   if (isLoading)
     return (
       <div className="my-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
@@ -36,6 +32,14 @@ const SearchResults = ({
         ))}
       </div>
     );
+
+  if (!isLoading && trendingAnime?.pages[0]?.Page?.pageInfo?.total === 0) {
+    return (
+      <div className="my-32 text-center text-xl font-bold tracking-wider text-gray-300">
+        No Results
+      </div>
+    );
+  }
 
   return (
     <div className="my-4">
@@ -51,7 +55,7 @@ const SearchResults = ({
         />
       )}
       {trendingAnime?.pages.map((page) => {
-        return <SearchResultGrid media={page?.Page?.media} />;
+        return <SearchResultGrid key={uuidv4()} media={page?.Page?.media} />;
       })}
 
       {isFetchingNextPage && (

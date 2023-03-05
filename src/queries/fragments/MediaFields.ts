@@ -39,6 +39,7 @@ export const MediaFieldsFragment = graphql(/* GraphQL */ `
     averageScore
     popularity
     source
+    siteUrl
     nextAiringEpisode {
       airingAt
       timeUntilAiring

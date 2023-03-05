@@ -3,49 +3,27 @@ import { Link } from "react-router-dom";
 import MyListbox from "../../components/Listbox/listbox.component";
 import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import { setSearchType } from "../../store/reducer/search/search.slice";
-import DefaultSearch from "./DefaultSearch.component";
 import { BiCaretLeft } from "react-icons/bi";
 import { useRef, useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { anilistClient } from "../../queries/graphqlClient";
 import { debounce } from "../../utils/debounce";
-import SearchResults from "../../components/SearchResults/SearchResults.component";
 import { MediaType } from "../../gql/graphql";
-import { getSearchMedia } from "../../queries/getSearchMedia";
+import MediaSearchComponent from "./features/MediaSearchComponent";
+import CharacterSearchComponent from "./features/CharacterSearchComponent";
 
 const Search = () => {
   //* State
   const [searchParams, setSearchParams] = useState("");
-  const searchTypes = [MediaType.Anime, MediaType.Manga];
+  const searchTypes = [MediaType.Anime, MediaType.Manga, "CHARACTER"];
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   //* Hooks
   const { type } = useAppSelector((state) => state.search);
-
   const dispatch = useAppDispatch();
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: ["search", searchParams, type],
-    queryFn: async ({ pageParam = 1 }) => {
-      return anilistClient.request(getSearchMedia, {
-        type: type,
-        search: searchParams,
-        perPage: 9,
-        page: pageParam,
-      });
-    },
-    getNextPageParam: (lastPage) => {
-      if (lastPage?.Page?.pageInfo?.hasNextPage) {
-        return lastPage?.Page?.pageInfo?.currentPage && lastPage.Page.pageInfo.currentPage + 1;
-      }
-      return false;
-    },
-  });
 
   //* Logic
   const handleSetSearchParams = debounce((value) => {
     setSearchParams(value);
-  }, 1000);
+  }, 500);
 
   function resetInput() {
     if (searchInputRef.current) {
@@ -77,11 +55,13 @@ const Search = () => {
             defaultValue={type}
             rangeOfValues={searchTypes}
             setterFunction={(value) => {
+              resetInput();
               dispatch(setSearchType(value));
             }}
           />
         </div>
       </div>
+
       {/* Search Bar */}
       <div className="flex gap-x-4">
         <input
@@ -98,18 +78,15 @@ const Search = () => {
         </button>
       </div>
 
-      {!searchParams && <DefaultSearch />}
+      {/* Renders when it's either of Media Types : Anime | Manga */}
+      {(type === MediaType.Anime || type === MediaType.Manga) && (
+        <MediaSearchComponent searchParams={searchParams} type={type} resetInput={resetInput} />
+      )}
 
-      {/* Search Results */}
-      <SearchResults
-        trendingAnime={data}
-        isLoading={status === "loading"}
-        fetchNextPage={fetchNextPage}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
-        searchParams={searchParams}
-        resetInput={resetInput}
-      />
+      {/* Renders when it's Character */}
+      {type === "CHARACTER" && (
+        <CharacterSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
+      )}
     </div>
   );
 };

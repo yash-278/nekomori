@@ -29,7 +29,7 @@ export type CardGridProps = {
 const CardGrid = (props: CardGridProps) => {
   return (
     <div>
-      <div className="my-4 flex items-center justify-between">
+      <div className="mt-5 mb-4 flex items-center justify-between">
         <p className="font-bold uppercase tracking-wider text-gray-400">{props.title}</p>
         {props.link && (
           <Link to={props.link} className="text-xs font-semibold tracking-wider text-gray-500">

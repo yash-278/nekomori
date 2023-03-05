@@ -1,7 +1,6 @@
 import VerticalCard from "../Card/VerticalCard/VerticalCard.component";
 import { v4 as uuidv4 } from "uuid";
 import { MediaFieldsFragment } from "../../gql/graphql";
-
 export type SearchResultGridProps = {
   // Pass any dynamic array of fragments
   media:
