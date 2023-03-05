@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "./bottom-navbar.styles.css";
 import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import { setSeason } from "../../store/reducer/season/season.slice";
@@ -12,13 +11,7 @@ export default function BottomNavbar() {
   const location = useLocation().pathname;
   const dispatch = useAppDispatch();
 
-  const { currentSeason, currentYear } = useAppSelector((state) => state.season);
-
-  const [navState, setNavState] = useState(true);
-
-  const navStateChange = () => {
-    setNavState((current) => !current);
-  };
+  const { currentSeason } = useAppSelector((state) => state.season);
 
   if (location === "/schedule")
     return (
@@ -80,10 +73,7 @@ export default function BottomNavbar() {
               </li>
             </ul>
           </nav>
-          <div
-            className="navi z-0 my-2 mr-2.5 rounded bg-accent-gray-darkest px-3 text-white"
-            onClick={() => navStateChange()}
-          >
+          <div className="navi z-0 my-2 mr-2.5 rounded bg-accent-gray-darkest px-3 text-white">
             <button className="flex h-full items-center">
               <GiHamburgerMenu size={"1.2em"} />
             </button>

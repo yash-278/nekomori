@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import CardGrid from "../../components/CardGrid/CardGrid.component";
 import { MediaSort, MediaType } from "../../gql/graphql";
 import { getTrendingAnime } from "../../queries/getTrendingAnime";
@@ -11,7 +10,6 @@ const DefaultSearch = () => {
     data: trendingAnime,
     isLoading: isLoadingTrendingAnime,
     isRefetching: isRefetchingTrendingAnime,
-    isError: isErrorTrendingAnime,
   } = useQuery(["trending", "anime"], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,
@@ -24,7 +22,6 @@ const DefaultSearch = () => {
     data: popularCurrentSeasonAnime,
     isLoading: isLoadingPopularCurrentSeasonAnime,
     isRefetching: isRefetchingPopularCurrentSeasonAnime,
-    isError: isErrorPopularCurrentSeasonAnime,
   } = useQuery(["popular", "currentSeason", "anime"], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,
@@ -38,7 +35,6 @@ const DefaultSearch = () => {
     data: upcomingNextSeasonAnime,
     isLoading: isLoadingUpcomingNextSeasonAnime,
     isRefetching: isRefetchingUpcomingNextSeasonAnime,
-    isError: isErrorUpcomingNextSeasonAnime,
   } = useQuery(["upcoming", "nextSeason", "anime"], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,
@@ -52,7 +48,6 @@ const DefaultSearch = () => {
     data: popularAnime,
     isLoading: isLoadingPopularAnime,
     isRefetching: isRefetchingPopularAnime,
-    isError: isErrorPopularAnime,
   } = useQuery(["popular", "anime"], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,

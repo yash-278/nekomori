@@ -1,11 +1,11 @@
 import humanizeDuration from "humanize-duration";
 import { FragmentType, useFragment } from "../gql";
-import { MediaFragment } from "../queries/getAnime";
+import { MediaFieldsFragment } from "../queries/fragments/MediaFields";
 
 const Time = (props: { seconds: number }) => {
   const milliSecs = props.seconds * 1000;
   return (
-    <div className="text-left text-sm md:text-lg font-bold ep-time">
+    <div className="ep-time text-left text-sm font-bold md:text-lg">
       {humanizeDuration(milliSecs, { units: ["d", "h"], round: true })}
     </div>
   );
@@ -35,8 +35,8 @@ function monthText(year?: number | null, month?: number | null, day?: number | n
   return dateConvert;
 }
 
-export function cardTitle(props: { anime: FragmentType<typeof MediaFragment> }) {
-  const anime = useFragment(MediaFragment, props.anime);
+export function cardTitle(props: { anime: FragmentType<typeof MediaFieldsFragment> }) {
+  const anime = useFragment(MediaFieldsFragment, props.anime);
 
   const { startDate, nextAiringEpisode } = anime;
 
@@ -45,7 +45,7 @@ export function cardTitle(props: { anime: FragmentType<typeof MediaFragment> }) 
       return (
         <div>
           <p className="text-left text-xs">{`${anime.episodes} Episodes aired on`}</p>
-          <div className="text-left text-sm md:text-lg font-bold ep-time">
+          <div className="ep-time text-left text-sm font-bold md:text-lg">
             {monthText(startDate?.year, startDate?.month, startDate?.day)}
           </div>
         </div>
@@ -59,7 +59,7 @@ export function cardTitle(props: { anime: FragmentType<typeof MediaFragment> }) 
           {anime.nextAiringEpisode ? (
             <Time seconds={anime.nextAiringEpisode.timeUntilAiring} />
           ) : (
-            <div className="text-left text-sm md:text-lg font-bold ep-time">TBA</div>
+            <div className="ep-time text-left text-sm font-bold md:text-lg">TBA</div>
           )}
         </div>
       );
@@ -67,7 +67,7 @@ export function cardTitle(props: { anime: FragmentType<typeof MediaFragment> }) 
       return (
         <div>
           <p className="text-left text-xs">{`Anime airing on`}</p>
-          <div className="text-left text-sm md:text-lg font-bold ep-time">
+          <div className="ep-time text-left text-sm font-bold md:text-lg">
             {monthText(startDate?.year, startDate?.month, startDate?.day)}
           </div>
         </div>

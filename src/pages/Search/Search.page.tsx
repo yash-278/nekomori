@@ -5,13 +5,13 @@ import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import { setSearchType } from "../../store/reducer/search/search.slice";
 import DefaultSearch from "./DefaultSearch.component";
 import { BiCaretLeft } from "react-icons/bi";
-import { useEffect, useRef, useState } from "react";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { anilistClient } from "../../queries/graphqlClient";
-import { getTrendingAnime } from "../../queries/getTrendingAnime";
 import { debounce } from "../../utils/debounce";
 import SearchResults from "../../components/SearchResults/SearchResults.component";
 import { MediaType } from "../../gql/graphql";
+import { getSearchMedia } from "../../queries/getSearchMedia";
 
 const Search = () => {
   //* State
@@ -20,28 +20,27 @@ const Search = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   //* Hooks
-  const { search, season, type } = useAppSelector((state) => state.search);
+  const { type } = useAppSelector((state) => state.search);
 
   const dispatch = useAppDispatch();
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
-    useInfiniteQuery({
-      queryKey: ["search", searchParams, type],
-      queryFn: async ({ pageParam = 1 }) => {
-        return anilistClient.request(getTrendingAnime, {
-          type: type,
-          search: searchParams,
-          perPage: 9,
-          page: pageParam,
-        });
-      },
-      getNextPageParam: (lastPage) => {
-        if (lastPage?.Page?.pageInfo?.hasNextPage) {
-          return lastPage?.Page?.pageInfo?.currentPage && lastPage.Page.pageInfo.currentPage + 1;
-        }
-        return false;
-      },
-    });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
+    queryKey: ["search", searchParams, type],
+    queryFn: async ({ pageParam = 1 }) => {
+      return anilistClient.request(getSearchMedia, {
+        type: type,
+        search: searchParams,
+        perPage: 9,
+        page: pageParam,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.Page?.pageInfo?.hasNextPage) {
+        return lastPage?.Page?.pageInfo?.currentPage && lastPage.Page.pageInfo.currentPage + 1;
+      }
+      return false;
+    },
+  });
 
   //* Logic
   const handleSetSearchParams = debounce((value) => {

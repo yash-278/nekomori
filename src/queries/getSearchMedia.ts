@@ -1,7 +1,7 @@
 import { graphql } from "../gql";
 
-export const getTrendingAnime = graphql(/* GraphQL */ `
-  query getTrendingAnime(
+export const getSearchMedia = graphql(/* GraphQL */ `
+  query getSearchMedia(
     $page: Int = 1
     $perPage: Int = 20
     $id: Int

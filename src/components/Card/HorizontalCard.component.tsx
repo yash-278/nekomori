@@ -1,11 +1,12 @@
 import { FragmentType, useFragment } from "../../gql/fragment-masking";
-import { MediaFragment } from "../../queries/getAnime";
+import { MediaFieldsFragment } from "../../queries/fragments/MediaFields";
+
 import { cardTitle } from "../../utils/card-title";
 
 import "./HorizontalCard.styles.css";
 
-function HorizontalCard(props: { anime: FragmentType<typeof MediaFragment> }) {
-  const anime = useFragment(MediaFragment, props.anime);
+function HorizontalCard(props: { anime: FragmentType<typeof MediaFieldsFragment> }) {
+  const anime = useFragment(MediaFieldsFragment, props.anime);
 
   if (!anime || anime === null) {
     return null;
@@ -25,35 +26,35 @@ function HorizontalCard(props: { anime: FragmentType<typeof MediaFragment> }) {
   }
 
   return (
-    <div className="bg-accent-gray-darkest h-60 md:h-64 flex w-auto rounded-md text-gray-300 overflow-hidden transition duration-300 ease-in-out transform hover:scale-101 hover:shadow-2xl elementToFadeInAndOut">
+    <div className="hover:scale-101 elementToFadeInAndOut flex h-60 w-auto transform overflow-hidden rounded-md bg-accent-gray-darkest text-gray-300 transition duration-300 ease-in-out hover:shadow-2xl md:h-64">
       {/* Card Image */}
-      <div className="relative w-64 aspect-w-16 aspect-h-1">
+      <div className="aspect-w-16 aspect-h-1 relative w-64">
         <img
-          className="object-cover rounded-l-md"
+          className="rounded-l-md object-cover"
           alt="anime-img"
           src={anime?.coverImage?.large || undefined}
         />
         <a href={`https://anilist.co/anime/${anime.id}/`} rel="noreferrer" target="_blank">
           {/*Card Studio & Title */}
-          <div className="absolute inset-x-0 bottom-0 bg-accent-gray-darkest bg-opacity-90 w-full py-2 px-2 rounded-bl-md studio">
-            <h1 className="text-white font-bold text-left text-sm">{getName()}</h1>
+          <div className="studio absolute inset-x-0 bottom-0 w-full rounded-bl-md bg-accent-gray-darkest bg-opacity-90 py-2 px-2">
+            <h1 className="text-left text-sm font-bold text-white">{getName()}</h1>
             {anime?.studios?.edges && anime.studios.edges[0] ? (
               <p
                 style={{
                   color: `${anime?.coverImage?.color}`,
                 }}
-                className="text-left font-bold text-xs"
+                className="text-left text-xs font-bold"
               >
                 {anime?.studios?.edges[0]?.node?.name}
               </p>
             ) : (
-              <p className="text-left font-bold text-xs">TBA</p>
+              <p className="text-left text-xs font-bold">TBA</p>
             )}
           </div>
         </a>
       </div>
       {/* Card Desc */}
-      <div className="w-full md:max-w-full flex flex-col justify-between">
+      <div className="flex w-full flex-col justify-between md:max-w-full">
         <div className="mx-3 mt-3 mb-2 overflow-auto">
           {cardTitle({
             anime: props.anime,
@@ -61,18 +62,18 @@ function HorizontalCard(props: { anime: FragmentType<typeof MediaFragment> }) {
           <p className="text-left text-xs">Source • {anime.source}</p>
           <p
             dangerouslySetInnerHTML={createMarkup()}
-            className="text-left text-xs mt-3 text-gray-400 hover:text-gray-300"
+            className="mt-3 text-left text-xs text-gray-400 hover:text-gray-300"
             id="ep-desc"
           ></p>
         </div>
-        <div className="bg-accent-gray-darker text-black py-2 rounded-br-md">
+        <div className="rounded-br-md bg-accent-gray-darker py-2 text-black">
           {anime?.genres?.slice(0, 2).map((genre) => (
             <span
               key={genre}
               style={{
                 backgroundColor: `${getColor()}`,
               }}
-              className="px-3 py-1 text-xs font-bold w-full mx-1 rounded-full"
+              className="mx-1 w-full rounded-full px-3 py-1 text-xs font-bold"
             >
               {genre}
             </span>

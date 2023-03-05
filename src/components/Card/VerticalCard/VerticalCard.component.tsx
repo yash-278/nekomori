@@ -1,8 +1,8 @@
 import { FragmentType, useFragment } from "../../../gql";
-import { MediaCardFragment } from "../../../queries/getTrendingAnime";
+import { MediaFieldsFragment } from "../../../queries/fragments/MediaFields";
 
-const VerticalCard = (props: { media: FragmentType<typeof MediaCardFragment> }) => {
-  const media = useFragment(MediaCardFragment, props.media);
+const VerticalCard = (props: { media: FragmentType<typeof MediaFieldsFragment> }) => {
+  const media = useFragment(MediaFieldsFragment, props.media);
   return (
     <div>
       <div className="aspect-w-3 aspect-h-4 drop-shadow-xl">

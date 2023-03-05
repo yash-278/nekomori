@@ -1,10 +1,6 @@
-import React, { useState, useEffect, Dispatch } from "react";
-import { useDispatch } from "react-redux";
-
+import { useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { useAppDispatch } from "../../hooks/customRedux";
-import { setYear } from "../../store/reducer/season/season.slice";
-import { Action, AnyAction, PayloadAction } from "@reduxjs/toolkit";
 
 export default function MyListbox({
   defaultValue,
