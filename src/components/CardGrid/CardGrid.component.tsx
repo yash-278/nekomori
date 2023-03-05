@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { MediaCardFieldsFragment } from "../../gql/graphql";
+
 import VerticalCard from "../Card/VerticalCard/VerticalCard.component";
 import VerticalCardLoader from "../Card/VerticalCard/VerticalCard.loader";
 import { v4 as uuidv4 } from "uuid";
+import { MediaFieldsFragment } from "../../gql/graphql";
 
 export type CardGridProps = {
   title?: string;
@@ -17,7 +18,7 @@ export type CardGridProps = {
   media:
     | (
         | ({ __typename?: "Media" | undefined } & {
-            " $fragmentRefs"?: { MediaCardFieldsFragment: MediaCardFieldsFragment } | undefined;
+            " $fragmentRefs"?: { MediaFieldsFragment: MediaFieldsFragment } | undefined;
           })
         | null
       )[]
@@ -28,7 +29,7 @@ export type CardGridProps = {
 const CardGrid = (props: CardGridProps) => {
   return (
     <div>
-      <div className="my-4 flex items-center justify-between">
+      <div className="mt-5 mb-4 flex items-center justify-between">
         <p className="font-bold uppercase tracking-wider text-gray-400">{props.title}</p>
         {props.link && (
           <Link to={props.link} className="text-xs font-semibold tracking-wider text-gray-500">

@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import { FragmentType, useFragment } from "../../../gql";
-import { MediaCardFragment } from "../../../queries/getTrendingAnime";
+import { MediaFieldsFragment } from "../../../queries/fragments/MediaFields";
 
-const VerticalCard = (props: { media: FragmentType<typeof MediaCardFragment> }) => {
-  const media = useFragment(MediaCardFragment, props.media);
+const VerticalCard = (props: { media: FragmentType<typeof MediaFieldsFragment> }) => {
+  const media = useFragment(MediaFieldsFragment, props.media);
   return (
-    <div>
+    <Link to={media?.siteUrl || ""}>
       <div className="aspect-w-3 aspect-h-4 drop-shadow-xl">
         <img src={media?.coverImage?.large || ""} alt="" className="rounded-md object-cover" />
       </div>
@@ -17,7 +18,7 @@ const VerticalCard = (props: { media: FragmentType<typeof MediaCardFragment> }) 
           {media?.title?.english || media?.title?.romaji}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 

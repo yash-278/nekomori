@@ -1,5 +1,3 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import { setSeason, setYear } from "../../store/reducer/season/season.slice";
 import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import MyListbox from "../Listbox/listbox.component";

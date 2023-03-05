@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home.page";
 import Manga from "./pages/Manga/Manga.page";
 import Profile from "./pages/Profile/Profile.page";
 import Search from "./pages/Search/Search.page";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { store } from "./store/store/store";
 
@@ -28,6 +29,7 @@ function App() {
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={true} />
         </QueryClientProvider>
       </Provider>
     </>

@@ -1,7 +1,7 @@
 import { graphql } from "../gql";
 
-export const getTrendingAnime = graphql(/* GraphQL */ `
-  query getTrendingAnime(
+export const getSearchMedia = graphql(/* GraphQL */ `
+  query getSearchMedia(
     $page: Int = 1
     $perPage: Int = 20
     $id: Int
@@ -76,6 +76,48 @@ export const getTrendingAnime = graphql(/* GraphQL */ `
         isAdult: $isAdult
       ) {
         ...MediaFields
+      }
+    }
+  }
+`);
+
+export const getSearchCharacters = graphql(/* GraphQL */ `
+  query getSearchCharacters(
+    $page: Int = 1
+    $perPage: Int = 20
+    # $id: Int
+    $isDefault: Boolean!
+    $search: String
+    $sort: [CharacterSort]
+  ) {
+    queryPage: Page(page: $page, perPage: $perPage) @skip(if: $isDefault) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+        __typename
+      }
+
+      characters(search: $search, sort: SEARCH_MATCH) {
+        __typename
+        ...CharacterItem
+      }
+    }
+    defaultPage: Page(page: $page, perPage: $perPage) @include(if: $isDefault) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+        __typename
+      }
+
+      characters(sort: $sort) {
+        __typename
+        ...CharacterItem
       }
     }
   }

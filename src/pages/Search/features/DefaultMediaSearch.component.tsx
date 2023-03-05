@@ -1,22 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
-import CardGrid from "../../components/CardGrid/CardGrid.component";
-import { MediaSort, MediaType } from "../../gql/graphql";
-import { getTrendingAnime } from "../../queries/getTrendingAnime";
-import { anilistClient } from "../../queries/graphqlClient";
-import { getCurrentSeason, getNextSeason, getNextSeasonYear } from "../../utils/season";
+import CardGrid from "../../../components/CardGrid/CardGrid.component";
+import { MediaSort, MediaType } from "../../../gql/graphql";
+import { getTrendingAnime } from "../../../queries/getTrendingAnime";
+import { anilistClient } from "../../../queries/graphqlClient";
+import { getCurrentSeason, getNextSeason, getNextSeasonYear } from "../../../utils/season";
 
-const DefaultSearch = () => {
+const DefaultMediaSearch = ({ type }: { type: MediaType }) => {
   const {
     data: trendingAnime,
     isLoading: isLoadingTrendingAnime,
     isRefetching: isRefetchingTrendingAnime,
-    isError: isErrorTrendingAnime,
-  } = useQuery(["trending", "anime"], async () =>
+  } = useQuery(["trending", type], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,
       sort: [MediaSort.TrendingDesc, MediaSort.PopularityDesc],
-      type: MediaType.Anime,
+      type: type,
     })
   );
 
@@ -24,13 +22,12 @@ const DefaultSearch = () => {
     data: popularCurrentSeasonAnime,
     isLoading: isLoadingPopularCurrentSeasonAnime,
     isRefetching: isRefetchingPopularCurrentSeasonAnime,
-    isError: isErrorPopularCurrentSeasonAnime,
-  } = useQuery(["popular", "currentSeason", "anime"], async () =>
+  } = useQuery(["popular", "currentSeason", type], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,
       season: getCurrentSeason(),
       seasonYear: new Date().getFullYear(),
-      type: MediaType.Anime,
+      type: type,
     })
   );
 
@@ -38,13 +35,12 @@ const DefaultSearch = () => {
     data: upcomingNextSeasonAnime,
     isLoading: isLoadingUpcomingNextSeasonAnime,
     isRefetching: isRefetchingUpcomingNextSeasonAnime,
-    isError: isErrorUpcomingNextSeasonAnime,
-  } = useQuery(["upcoming", "nextSeason", "anime"], async () =>
+  } = useQuery(["upcoming", "nextSeason", type], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,
       season: getNextSeason(),
       seasonYear: getNextSeasonYear(),
-      type: MediaType.Anime,
+      type: type,
     })
   );
 
@@ -52,12 +48,11 @@ const DefaultSearch = () => {
     data: popularAnime,
     isLoading: isLoadingPopularAnime,
     isRefetching: isRefetchingPopularAnime,
-    isError: isErrorPopularAnime,
-  } = useQuery(["popular", "anime"], async () =>
+  } = useQuery(["popular", type], async () =>
     anilistClient.request(getTrendingAnime, {
       page: 1,
       sort: [MediaSort.PopularityDesc],
-      type: MediaType.Anime,
+      type: type,
     })
   );
   return (
@@ -71,32 +66,36 @@ const DefaultSearch = () => {
         loading={{ isLoading: isLoadingTrendingAnime, isRefetching: isRefetchingTrendingAnime }}
       />
 
-      <CardGrid
-        title="Popular This Season"
-        link="/"
-        linkTitle="View All"
-        media={popularCurrentSeasonAnime?.Page?.media}
-        slice={6}
-        loading={{
-          isLoading: isLoadingPopularCurrentSeasonAnime,
-          isRefetching: isRefetchingPopularCurrentSeasonAnime,
-        }}
-      />
+      {type === MediaType.Anime && (
+        <CardGrid
+          title="Popular This Season"
+          link="/"
+          linkTitle="View All"
+          media={popularCurrentSeasonAnime?.Page?.media}
+          slice={6}
+          loading={{
+            isLoading: isLoadingPopularCurrentSeasonAnime,
+            isRefetching: isRefetchingPopularCurrentSeasonAnime,
+          }}
+        />
+      )}
+
+      {type === MediaType.Anime && (
+        <CardGrid
+          title="Upcoming Next Season"
+          link="/"
+          linkTitle="View All"
+          media={upcomingNextSeasonAnime?.Page?.media}
+          slice={6}
+          loading={{
+            isLoading: isLoadingUpcomingNextSeasonAnime,
+            isRefetching: isRefetchingUpcomingNextSeasonAnime,
+          }}
+        />
+      )}
 
       <CardGrid
-        title="Upcoming Next Season"
-        link="/"
-        linkTitle="View All"
-        media={upcomingNextSeasonAnime?.Page?.media}
-        slice={6}
-        loading={{
-          isLoading: isLoadingUpcomingNextSeasonAnime,
-          isRefetching: isRefetchingUpcomingNextSeasonAnime,
-        }}
-      />
-
-      <CardGrid
-        title="Popular Anime"
+        title="All time Popular"
         link="/"
         linkTitle="View All"
         media={popularAnime?.Page?.media}
@@ -107,4 +106,4 @@ const DefaultSearch = () => {
   );
 };
 
-export default DefaultSearch;
+export default DefaultMediaSearch;
