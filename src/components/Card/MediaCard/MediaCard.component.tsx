@@ -7,7 +7,7 @@ const MediaCard = (props: { media: FragmentType<typeof MediaFieldsFragment> }) =
   return (
     <Link to={media?.siteUrl || ""} key={media?.id}>
       <div className="aspect-w-3 aspect-h-4">
-        <ImageLoader src={media?.coverImage?.large || ""} />
+        <ImageLoader src={media?.coverImage?.large || ""} loadHexCode={media?.coverImage?.color} />
       </div>
 
       <div className="mt-2">
