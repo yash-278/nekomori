@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import VerticalCard from "../Card/VerticalCard/VerticalCard.component";
-import VerticalCardLoader from "../Card/VerticalCard/VerticalCard.loader";
+import MediaCard from "../Card/MediaCard/MediaCard.component";
+import VerticalCardLoader from "../Card/MediaCard/VerticalCard.loader";
 import { v4 as uuidv4 } from "uuid";
 import { MediaFieldsFragment } from "../../gql/graphql";
 
@@ -45,7 +45,7 @@ const CardGrid = (props: CardGridProps) => {
         {props.media &&
           props.media
             .slice(0, props.slice || props.media.length)
-            .map((item, index) => item && <VerticalCard key={uuidv4()} media={item} />)}
+            .map((item, index) => item && <MediaCard key={uuidv4()} media={item} />)}
       </div>
     </div>
   );

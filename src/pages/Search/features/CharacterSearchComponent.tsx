@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import CharacterCard from "../../../components/Card/CharacterCard/CharacterCard.component";
-import VerticalCardLoader from "../../../components/Card/VerticalCard/VerticalCard.loader";
+import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import { CharacterSort } from "../../../gql/graphql";
 import { getSearchCharacters } from "../../../queries/getSearchMedia";
 import { anilistClient } from "../../../queries/graphqlClient";
@@ -42,7 +42,7 @@ const CharacterSearchComponent = ({
     },
   });
 
-  if (status === "success" && data?.pages[0]?.queryPage?.pageInfo?.total === 0) {
+  if (searchParams && status === "success" && data?.pages[0]?.queryPage?.pageInfo?.total === 0) {
     return (
       <div className="my-32 text-center text-xl font-bold tracking-wider text-gray-300">
         No Results
@@ -62,29 +62,39 @@ const CharacterSearchComponent = ({
           }}
         />
       )}
-      <p className="mb-4 font-bold uppercase tracking-wider text-gray-400">User Favorite</p>
+      {!searchParams && (
+        <p className="mb-4 font-bold uppercase tracking-wider text-gray-400">User Favorite</p>
+      )}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {/* Loader */}
-        {status === "loading" && [...Array(12)].map(() => <VerticalCardLoader key={uuidv4()} />)}
+        {status === "loading" && [...Array(25)].map(() => <VerticalCardLoader key={uuidv4()} />)}
 
         {/* Default Page */}
         {!searchParams &&
           data?.pages.map((page) => {
-            return page?.defaultPage?.characters?.map((character) => {
-              return character && <CharacterCard character={character} />;
+            return page?.defaultPage?.characters?.map((character, i) => {
+              return (
+                character && (
+                  <CharacterCard character={character} key={`${character.__typename}-${i}`} />
+                )
+              );
             });
           })}
 
         {/* Search Results Page */}
         {searchParams &&
           data?.pages.map((page) => {
-            return page?.queryPage?.characters?.map((character) => {
-              return character && <CharacterCard character={character} />;
+            return page?.queryPage?.characters?.map((character, i) => {
+              return (
+                character && (
+                  <CharacterCard character={character} key={`${character.__typename}-${i}`} />
+                )
+              );
             });
           })}
 
         {/* Infinite Query Loader */}
-        {isFetchingNextPage && [...Array(9)].map(() => <VerticalCardLoader key={uuidv4()} />)}
+        {isFetchingNextPage && [...Array(15)].map(() => <VerticalCardLoader key={uuidv4()} />)}
       </div>
       {hasNextPage && (
         <Button
