@@ -2,18 +2,24 @@ import { GoSettings } from "react-icons/go";
 import { Link } from "react-router-dom";
 import MyListbox from "../../components/Listbox/listbox.component";
 import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
-import { setSearchType } from "../../store/reducer/search/search.slice";
+import { SearchState, setSearchType } from "../../store/reducer/search/search.slice";
 import { BiCaretLeft } from "react-icons/bi";
 import { useRef, useState } from "react";
 import { debounce } from "../../utils/debounce";
 import { MediaType } from "../../gql/graphql";
 import MediaSearchComponent from "./features/MediaSearchComponent";
 import CharacterSearchComponent from "./features/CharacterSearchComponent";
+import StudioSearchComponent from "./features/StudioSearchComponent";
 
 const Search = () => {
   //* State
   const [searchParams, setSearchParams] = useState("");
-  const searchTypes = [MediaType.Anime, MediaType.Manga, "CHARACTER"];
+  const searchTypes: SearchState["type"][] = [
+    MediaType.Anime,
+    MediaType.Manga,
+    "CHARACTER",
+    "STUDIO",
+  ];
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   //* Hooks
@@ -86,6 +92,11 @@ const Search = () => {
       {/* Renders when it's Character */}
       {type === "CHARACTER" && (
         <CharacterSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
+      )}
+
+      {/* Renders when it's Studio */}
+      {type === "STUDIO" && (
+        <StudioSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
       )}
     </div>
   );

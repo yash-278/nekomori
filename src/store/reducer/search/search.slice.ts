@@ -3,7 +3,7 @@ import { MediaSeason, MediaType } from "../../../gql/graphql";
 
 export interface SearchState {
   search: string;
-  type: MediaType | "CHARACTER";
+  type: MediaType | "CHARACTER" | "STUDIO";
   season: MediaSeason;
 }
 

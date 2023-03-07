@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { FragmentType, graphql, useFragment } from "../../../gql";
+import { FragmentType, useFragment } from "../../../gql/fragment-masking";
+import { graphql } from "../../../gql";
 import ImageLoader from "../../ImageLoader/ImageLoader.component";
 
 const MediaCard = (props: { media: FragmentType<typeof MediaFieldsFragment> }) => {

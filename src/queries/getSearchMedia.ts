@@ -102,6 +102,7 @@ export const getSearchCharacters = graphql(/* GraphQL */ `
 
       characters(search: $search, sort: SEARCH_MATCH) {
         __typename
+        id
         ...CharacterItem
       }
     }
@@ -118,6 +119,43 @@ export const getSearchCharacters = graphql(/* GraphQL */ `
       characters(sort: $sort) {
         __typename
         ...CharacterItem
+      }
+    }
+  }
+`);
+
+export const getSearchStudios = graphql(/* GraphQL */ `
+  query getSearchStudios(
+    $page: Int = 1
+    $perPage: Int = 20
+    $isDefault: Boolean!
+    $search: String
+    $sort: [StudioSort] = [FAVOURITES_DESC]
+  ) {
+    queryPage: Page(page: $page, perPage: $perPage) @skip(if: $isDefault) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+        __typename
+      }
+      studios(search: $search, sort: SEARCH_MATCH) {
+        ...StudioItem
+      }
+    }
+    defaultPage: Page(page: $page, perPage: $perPage) @include(if: $isDefault) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+        __typename
+      }
+      studios(sort: $sort) {
+        ...StudioItem
       }
     }
   }
