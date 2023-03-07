@@ -116,7 +116,7 @@ export const getSearchCharacters = graphql(/* GraphQL */ `
         __typename
       }
 
-      characters(sort: $sort) {
+      characters(sort: $sort, isBirthday: true) {
         __typename
         ...CharacterItem
       }
@@ -156,6 +156,43 @@ export const getSearchStudios = graphql(/* GraphQL */ `
       }
       studios(sort: $sort) {
         ...StudioItem
+      }
+    }
+  }
+`);
+
+export const getSearchStaff = graphql(/* GraphQL */ `
+  query getSearchStaff(
+    $page: Int = 1
+    $perPage: Int = 20
+    $isDefault: Boolean!
+    $search: String
+    $sort: [StaffSort] = [FAVOURITES_DESC]
+  ) {
+    queryPage: Page(page: $page, perPage: $perPage) @skip(if: $isDefault) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+        __typename
+      }
+      staff(search: $search, sort: SEARCH_MATCH) {
+        ...StaffItem
+      }
+    }
+    defaultPage: Page(page: $page, perPage: $perPage) @include(if: $isDefault) {
+      pageInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+        hasNextPage
+        __typename
+      }
+      staff(sort: $sort, isBirthday: true) {
+        ...StaffItem
       }
     }
   }

@@ -10,6 +10,7 @@ import { MediaType } from "../../gql/graphql";
 import MediaSearchComponent from "./features/MediaSearchComponent";
 import CharacterSearchComponent from "./features/CharacterSearchComponent";
 import StudioSearchComponent from "./features/StudioSearchComponent";
+import StaffSearchComponent from "./features/StaffSearchComponent";
 
 const Search = () => {
   //* State
@@ -18,6 +19,7 @@ const Search = () => {
     MediaType.Anime,
     MediaType.Manga,
     "CHARACTER",
+    "STAFF",
     "STUDIO",
   ];
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -79,9 +81,11 @@ const Search = () => {
           className="w-full rounded-md border-none bg-accent-gray-darkest text-sm text-gray-400"
           placeholder="Search"
         />
-        <button className="rounded-md bg-accent-gray-darkest px-2 text-2xl text-accent-gray">
-          <GoSettings />
-        </button>
+        {(type === MediaType.Anime || type === MediaType.Manga) && (
+          <button className="rounded-md bg-accent-gray-darkest px-2 text-2xl text-accent-gray">
+            <GoSettings />
+          </button>
+        )}
       </div>
 
       {/* Renders when it's either of Media Types : Anime | Manga */}
@@ -97,6 +101,11 @@ const Search = () => {
       {/* Renders when it's Studio */}
       {type === "STUDIO" && (
         <StudioSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
+      )}
+
+      {/* Renders when it's Staff */}
+      {type === "STAFF" && (
+        <StaffSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
       )}
     </div>
   );
