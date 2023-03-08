@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { useAppDispatch } from "../../hooks/customRedux";
+import { SearchState } from "../../store/reducer/search/search.slice";
 
 export default function MyListbox({
   defaultValue,
@@ -8,7 +9,7 @@ export default function MyListbox({
   setterFunction,
 }: {
   defaultValue: string;
-  rangeOfValues: string[];
+  rangeOfValues: SearchState["type"][] | string[];
   setterFunction: (value: string) => void;
 }) {
   const [selectedValue, setSelectedValue] = useState(defaultValue);

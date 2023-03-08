@@ -1,13 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import CharacterCard from "../../../components/Card/CharacterCard/CharacterCard.component";
-import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
-import { CharacterSort } from "../../../gql/graphql";
-import { getSearchCharacters } from "../../../queries/getSearchMedia";
+import { getSearchStudios } from "../../../queries/getSearchMedia";
 import { anilistClient } from "../../../queries/graphqlClient";
-import { v4 as uuidv4 } from "uuid";
 import { Button, Chip } from "@material-tailwind/react";
+import StudioCard from "../../../components/Card/StudioCard/StudioCard.component";
 
-const CharacterSearchComponent = ({
+const StudioSearchComponent = ({
   type,
   searchParams,
   resetInput,
@@ -19,12 +16,11 @@ const CharacterSearchComponent = ({
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
     queryKey: ["search", searchParams, type, searchParams === ""],
     queryFn: async ({ pageParam = 1 }) => {
-      return anilistClient.request(getSearchCharacters, {
+      return anilistClient.request(getSearchStudios, {
         isDefault: searchParams === "",
         search: searchParams,
         perPage: 25,
         page: pageParam,
-        sort: CharacterSort.FavouritesDesc,
       });
     },
     getNextPageParam: (lastPage) => {
@@ -63,38 +59,36 @@ const CharacterSearchComponent = ({
         />
       )}
       {!searchParams && (
-        <p className="mb-4 font-bold uppercase tracking-wider text-gray-400">Birthdays</p>
+        <p className="mb-4 font-bold uppercase tracking-wider text-gray-400">Most Popular</p>
       )}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {/* Loader */}
-        {status === "loading" && [...Array(25)].map(() => <VerticalCardLoader key={uuidv4()} />)}
+        {status === "loading" &&
+          [...Array(25)].map((_, index) => (
+            <div key={index} className="h-16 w-full rounded bg-accent-gray-darkest"></div>
+          ))}
 
         {/* Default Page */}
         {!searchParams &&
           data?.pages.map((page) => {
-            return page?.defaultPage?.characters?.map((character, i) => {
-              return (
-                character && (
-                  <CharacterCard character={character} key={`${character.__typename}-${i}`} />
-                )
-              );
+            return page?.defaultPage?.studios?.map((studio, i) => {
+              return studio && <StudioCard studio={studio} key={`${studio.__typename}-${i}`} />;
             });
           })}
 
         {/* Search Results Page */}
         {searchParams &&
           data?.pages.map((page) => {
-            return page?.queryPage?.characters?.map((character, i) => {
-              return (
-                character && (
-                  <CharacterCard character={character} key={`${character.__typename}-${i}`} />
-                )
-              );
+            return page?.queryPage?.studios?.map((studio, i) => {
+              return studio && <StudioCard studio={studio} key={`${studio.__typename}-${i}`} />;
             });
           })}
 
         {/* Infinite Query Loader */}
-        {isFetchingNextPage && [...Array(15)].map(() => <VerticalCardLoader key={uuidv4()} />)}
+        {isFetchingNextPage &&
+          [...Array(15)].map(() => (
+            <div className="h-20 w-full rounded bg-accent-gray-darkest"></div>
+          ))}
       </div>
       {hasNextPage && (
         <Button
@@ -113,4 +107,4 @@ const CharacterSearchComponent = ({
   );
 };
 
-export default CharacterSearchComponent;
+export default StudioSearchComponent;

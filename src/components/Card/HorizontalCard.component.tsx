@@ -1,9 +1,9 @@
 import { FragmentType, useFragment } from "../../gql/fragment-masking";
-import { MediaFieldsFragment } from "../../queries/fragments/MediaFields";
 
 import { cardTitle } from "../../utils/card-title";
 
 import "./HorizontalCard.styles.css";
+import { MediaFieldsFragment } from "./MediaCard/MediaCard.component";
 
 function HorizontalCard(props: { anime: FragmentType<typeof MediaFieldsFragment> }) {
   const anime = useFragment(MediaFieldsFragment, props.anime);

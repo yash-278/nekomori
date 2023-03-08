@@ -1,6 +1,6 @@
 import humanizeDuration from "humanize-duration";
+import { MediaFieldsFragment } from "../components/Card/MediaCard/MediaCard.component";
 import { FragmentType, useFragment } from "../gql";
-import { MediaFieldsFragment } from "../queries/fragments/MediaFields";
 
 const Time = (props: { seconds: number }) => {
   const milliSecs = props.seconds * 1000;

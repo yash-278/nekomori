@@ -1,13 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import CharacterCard from "../../../components/Card/CharacterCard/CharacterCard.component";
 import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
-import { CharacterSort } from "../../../gql/graphql";
-import { getSearchCharacters } from "../../../queries/getSearchMedia";
+import { getSearchStaff } from "../../../queries/getSearchMedia";
 import { anilistClient } from "../../../queries/graphqlClient";
 import { v4 as uuidv4 } from "uuid";
 import { Button, Chip } from "@material-tailwind/react";
+import StaffCard from "../../../components/Card/StaffCard/StaffCard.component";
 
-const CharacterSearchComponent = ({
+const StaffSearchComponent = ({
   type,
   searchParams,
   resetInput,
@@ -19,12 +18,12 @@ const CharacterSearchComponent = ({
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
     queryKey: ["search", searchParams, type, searchParams === ""],
     queryFn: async ({ pageParam = 1 }) => {
-      return anilistClient.request(getSearchCharacters, {
+      return anilistClient.request(getSearchStaff, {
         isDefault: searchParams === "",
         search: searchParams,
         perPage: 25,
         page: pageParam,
-        sort: CharacterSort.FavouritesDesc,
+        // sort: CharacterSort.FavouritesDesc,
       });
     },
     getNextPageParam: (lastPage) => {
@@ -72,24 +71,16 @@ const CharacterSearchComponent = ({
         {/* Default Page */}
         {!searchParams &&
           data?.pages.map((page) => {
-            return page?.defaultPage?.characters?.map((character, i) => {
-              return (
-                character && (
-                  <CharacterCard character={character} key={`${character.__typename}-${i}`} />
-                )
-              );
+            return page?.defaultPage?.staff?.map((staff, i) => {
+              return staff && <StaffCard staff={staff} key={`${staff.__typename}-${i}`} />;
             });
           })}
 
         {/* Search Results Page */}
         {searchParams &&
           data?.pages.map((page) => {
-            return page?.queryPage?.characters?.map((character, i) => {
-              return (
-                character && (
-                  <CharacterCard character={character} key={`${character.__typename}-${i}`} />
-                )
-              );
+            return page?.queryPage?.staff?.map((staff, i) => {
+              return staff && <StaffCard staff={staff} key={`${staff.__typename}-${i}`} />;
             });
           })}
 
@@ -113,4 +104,4 @@ const CharacterSearchComponent = ({
   );
 };
 
-export default CharacterSearchComponent;
+export default StaffSearchComponent;

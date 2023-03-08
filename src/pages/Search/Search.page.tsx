@@ -2,18 +2,33 @@ import { GoSettings } from "react-icons/go";
 import { Link } from "react-router-dom";
 import MyListbox from "../../components/Listbox/listbox.component";
 import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
-import { setSearchType } from "../../store/reducer/search/search.slice";
+import { SearchState, setSearchType } from "../../store/reducer/search/search.slice";
 import { BiCaretLeft } from "react-icons/bi";
 import { useRef, useState } from "react";
 import { debounce } from "../../utils/debounce";
 import { MediaType } from "../../gql/graphql";
 import MediaSearchComponent from "./features/MediaSearchComponent";
 import CharacterSearchComponent from "./features/CharacterSearchComponent";
+import StudioSearchComponent from "./features/StudioSearchComponent";
+import StaffSearchComponent from "./features/StaffSearchComponent";
+import SearchPageFilter from "./features/SearchPageFilter";
+import { Genre } from "../../store/reducer/advancedSearch/advancedSearch.slice";
+
+export type AdvancedFilterType = {
+  genres: Genre[];
+};
 
 const Search = () => {
   //* State
   const [searchParams, setSearchParams] = useState("");
-  const searchTypes = [MediaType.Anime, MediaType.Manga, "CHARACTER"];
+  const [showFilters, setShowFilters] = useState(false);
+  const searchTypes: SearchState["type"][] = [
+    MediaType.Anime,
+    MediaType.Manga,
+    "CHARACTER",
+    "STAFF",
+    "STUDIO",
+  ];
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   //* Hooks
@@ -70,13 +85,24 @@ const Search = () => {
             handleSetSearchParams(e.target.value);
           }}
           ref={searchInputRef}
-          className="w-full rounded-md border-none bg-accent-gray-darkest text-sm text-gray-400"
+          className="w-full rounded-md border-none bg-accent-gray-darkest text-sm text-gray-400 shadow-md drop-shadow-md"
           placeholder="Search"
         />
-        <button className="rounded-md bg-accent-gray-darkest px-2 text-2xl text-accent-gray">
-          <GoSettings />
-        </button>
+        {(type === MediaType.Anime || type === MediaType.Manga) && (
+          <button
+            className="rounded-md bg-accent-gray-darkest px-2 text-2xl text-accent-gray shadow-md drop-shadow-md"
+            onClick={() => {
+              setShowFilters(!showFilters);
+            }}
+          >
+            <GoSettings />
+          </button>
+        )}
       </div>
+
+      {(type === MediaType.Anime || type === MediaType.Manga) && showFilters && (
+        <SearchPageFilter />
+      )}
 
       {/* Renders when it's either of Media Types : Anime | Manga */}
       {(type === MediaType.Anime || type === MediaType.Manga) && (
@@ -86,6 +112,16 @@ const Search = () => {
       {/* Renders when it's Character */}
       {type === "CHARACTER" && (
         <CharacterSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
+      )}
+
+      {/* Renders when it's Studio */}
+      {type === "STUDIO" && (
+        <StudioSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
+      )}
+
+      {/* Renders when it's Staff */}
+      {type === "STAFF" && (
+        <StaffSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
       )}
     </div>
   );

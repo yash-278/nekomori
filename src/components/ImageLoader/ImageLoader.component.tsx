@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function ImageLoader({ src }: { src: string }) {
+export default function ImageLoader({
+  src,
+  loadHexCode,
+}: {
+  src: string;
+  loadHexCode?: string | null;
+}) {
   const [imageLoading, setImageLoading] = useState(true);
   const [pulsing, setPulsing] = useState(true);
 
@@ -12,8 +18,10 @@ export default function ImageLoader({ src }: { src: string }) {
 
   return (
     <div
-      className={`${pulsing ? "pulse" : ""} h-full rounded-md bg-accent-gray-darkest`}
-      style={{ borderRadius: "6px" }}
+      className={`${pulsing ? "pulse" : ""} h-full rounded-md ${
+        `bg-` + loadHexCode || "bg-accent-gray-darkest"
+      }`}
+      style={{ borderRadius: "6px", backgroundColor: loadHexCode || "rgb(31 41 55)" }}
     >
       <motion.img
         initial={{

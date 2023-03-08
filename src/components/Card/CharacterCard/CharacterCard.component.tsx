@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { FragmentType, graphql, useFragment } from "../../../gql";
+import { FragmentType, useFragment } from "../../../gql/fragment-masking";
+import { graphql } from "../../../gql";
 import ImageLoader from "../../ImageLoader/ImageLoader.component";
 
 const CharacterCard = (props: { character: FragmentType<typeof CharacterCardFragment> }) => {
   const character = useFragment(CharacterCardFragment, props.character);
   return (
-    <Link to={character?.siteUrl || ""}>
+    <Link to={character?.siteUrl || ""} key={character?.id}>
       <div className="aspect-w-3 aspect-h-4">
         <ImageLoader src={character?.image?.large || ""} />
       </div>
