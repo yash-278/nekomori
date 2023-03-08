@@ -197,3 +197,13 @@ export const getSearchStaff = graphql(/* GraphQL */ `
     }
   }
 `);
+
+export const getGenres = graphql(/* GraphQL */ `
+  query getGenres {
+    GenreCollection
+    MediaTagCollection {
+      id
+      name
+    }
+  }
+`);

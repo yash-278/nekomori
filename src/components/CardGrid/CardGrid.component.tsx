@@ -45,7 +45,10 @@ const CardGrid = (props: CardGridProps) => {
         {props.media &&
           props.media
             .slice(0, props.slice || props.media.length)
-            .map((item, index) => item && <MediaCard key={uuidv4()} media={item} />)}
+            .map(
+              (item, index) =>
+                item && <MediaCard key={`${item.__typename}-${index}`} media={item} />
+            )}
       </div>
     </div>
   );

@@ -11,10 +11,17 @@ import MediaSearchComponent from "./features/MediaSearchComponent";
 import CharacterSearchComponent from "./features/CharacterSearchComponent";
 import StudioSearchComponent from "./features/StudioSearchComponent";
 import StaffSearchComponent from "./features/StaffSearchComponent";
+import SearchPageFilter from "./features/SearchPageFilter";
+import { Genre } from "../../store/reducer/advancedSearch/advancedSearch.slice";
+
+export type AdvancedFilterType = {
+  genres: Genre[];
+};
 
 const Search = () => {
   //* State
   const [searchParams, setSearchParams] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
   const searchTypes: SearchState["type"][] = [
     MediaType.Anime,
     MediaType.Manga,
@@ -78,15 +85,24 @@ const Search = () => {
             handleSetSearchParams(e.target.value);
           }}
           ref={searchInputRef}
-          className="w-full rounded-md border-none bg-accent-gray-darkest text-sm text-gray-400"
+          className="w-full rounded-md border-none bg-accent-gray-darkest text-sm text-gray-400 shadow-md drop-shadow-md"
           placeholder="Search"
         />
         {(type === MediaType.Anime || type === MediaType.Manga) && (
-          <button className="rounded-md bg-accent-gray-darkest px-2 text-2xl text-accent-gray">
+          <button
+            className="rounded-md bg-accent-gray-darkest px-2 text-2xl text-accent-gray shadow-md drop-shadow-md"
+            onClick={() => {
+              setShowFilters(!showFilters);
+            }}
+          >
             <GoSettings />
           </button>
         )}
       </div>
+
+      {(type === MediaType.Anime || type === MediaType.Manga) && showFilters && (
+        <SearchPageFilter />
+      )}
 
       {/* Renders when it's either of Media Types : Anime | Manga */}
       {(type === MediaType.Anime || type === MediaType.Manga) && (

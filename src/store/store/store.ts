@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import searchReducer from "../reducer/search/search.slice";
 import seasonReducer from "../reducer/season/season.slice";
+import advancedSearchReducer from "../reducer/advancedSearch/advancedSearch.slice";
 export const store = configureStore({
   reducer: {
     season: seasonReducer,
     search: searchReducer,
+    advancedSearch: advancedSearchReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

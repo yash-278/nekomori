@@ -1,4 +1,4 @@
-import { Button, Chip } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import { MediaType } from "../../../gql/graphql";
@@ -7,6 +7,9 @@ import { anilistClient } from "../../../queries/graphqlClient";
 import DefaultMediaSearch from "./DefaultMediaSearch.component";
 import { v4 as uuidv4 } from "uuid";
 import MediaCard from "../../../components/Card/MediaCard/MediaCard.component";
+import { useAppSelector } from "../../../hooks/customRedux";
+import useCheckFilters from "../../../hooks/useCheckFilters";
+import SearchFilterChips from "./SearchFilterChips";
 
 type MediaSearchComponentProps = {
   searchParams: string;
@@ -15,14 +18,18 @@ type MediaSearchComponentProps = {
 };
 
 const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchComponentProps) => {
+  const { genres } = useAppSelector((state) => state.advancedSearch);
+  const { checkIfFiltersAreActive } = useCheckFilters(searchParams);
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: ["search", searchParams, type, searchParams === ""],
+    queryKey: ["search", searchParams, type, searchParams === "", genres],
     queryFn: async ({ pageParam = 1 }) => {
       return anilistClient.request(getSearchMedia, {
         type: type,
-        search: searchParams,
         perPage: 25,
         page: pageParam,
+        ...(searchParams && { search: searchParams }),
+        ...(genres.length > 0 && { genres: genres }),
       });
     },
     getNextPageParam: (lastPage) => {
@@ -43,28 +50,17 @@ const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchCom
 
   return (
     <div className="my-4">
-      {!searchParams && <DefaultMediaSearch type={type} />}
+      {!checkIfFiltersAreActive() && <DefaultMediaSearch type={type} />}
 
       {/* Search Results */}
-
-      {searchParams && (
-        <Chip
-          value={searchParams}
-          variant="filled"
-          color="gray"
-          className="mb-4"
-          dismissible={{
-            onClose: () => resetInput(),
-          }}
-        />
-      )}
+      <SearchFilterChips searchParams={searchParams} resetInput={resetInput} />
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {/* Loader */}
         {status === "loading" && [...Array(25)].map(() => <VerticalCardLoader key={uuidv4()} />)}
 
         {/* Search results  */}
-        {searchParams &&
+        {checkIfFiltersAreActive() &&
           data?.pages.map((page) => {
             return page?.Page?.media?.map((media, i) => {
               return media && <MediaCard media={media} key={`${media.__typename}-${i}`} />;
@@ -75,7 +71,7 @@ const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchCom
         {isFetchingNextPage && [...Array(9)].map(() => <VerticalCardLoader key={uuidv4()} />)}
       </div>
 
-      {hasNextPage && (
+      {checkIfFiltersAreActive() && hasNextPage && (
         <Button
           size="sm"
           color="gray"
