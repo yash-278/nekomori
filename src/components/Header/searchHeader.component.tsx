@@ -3,15 +3,12 @@ import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import MyListbox from "../Listbox/listbox.component";
 import { MediaSeason } from "../../gql/graphql";
 import HeaderLogo from "./headerLogo.component";
-
-const years = Array.from({ length: new Date().getFullYear() + 1 - 2000 + 1 }, (_, index) =>
-  (2000 + index).toString()
-);
+import { getYears } from "../../utils/season";
 
 const SearchHeader = () => {
   const dispatch = useAppDispatch();
   const { currentSeason, currentYear } = useAppSelector((state) => state.season);
-
+  const years = getYears();
   return (
     <div className="flex h-16 items-center justify-between bg-accent-gray-darkest py-3 px-4 text-gray-500 lg:py-5 lg:px-12">
       <HeaderLogo />

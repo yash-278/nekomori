@@ -1,10 +1,17 @@
 import { Button } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import { MediaType } from "../../../gql/graphql";
 import { getSearchMedia } from "../../../queries/getSearchMedia";
 import { anilistClient } from "../../../queries/graphqlClient";
 import DefaultMediaSearch from "./DefaultMediaSearch.component";
+import { v4 as uuidv4 } from "uuid";
+import MediaCard from "../../../components/Card/MediaCard/MediaCard.component";
+import { useAppSelector } from "../../../hooks/customRedux";
+import useCheckFilters from "../../../hooks/useCheckFilters";
+import SearchFilterChips from "./SearchFilterChips";
 import { v4 as uuidv4 } from "uuid";
 import MediaCard from "../../../components/Card/MediaCard/MediaCard.component";
 import { useAppSelector } from "../../../hooks/customRedux";
@@ -18,11 +25,15 @@ type MediaSearchComponentProps = {
 };
 
 const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchComponentProps) => {
-  const { genres } = useAppSelector((state) => state.advancedSearch);
+  const {
+    advancedSearch,
+    advancedSearch: { genres, tags, year },
+  } = useAppSelector((state) => state);
+
   const { checkIfFiltersAreActive } = useCheckFilters(searchParams);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: ["search", searchParams, type, searchParams === "", genres],
+    queryKey: ["search", searchParams, type, searchParams === "", advancedSearch],
     queryFn: async ({ pageParam = 1 }) => {
       return anilistClient.request(getSearchMedia, {
         type: type,
@@ -30,6 +41,8 @@ const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchCom
         page: pageParam,
         ...(searchParams && { search: searchParams }),
         ...(genres.length > 0 && { genres: genres }),
+        ...(tags.length > 0 && { tags: tags }),
+        ...(year[0] !== "" && { year: year[0] + "%" }),
       });
     },
     getNextPageParam: (lastPage) => {

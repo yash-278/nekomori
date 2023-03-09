@@ -43,3 +43,8 @@ export function getNextSeasonYear(): number {
 
   return year;
 }
+export function getYears() {
+  return Array.from({ length: new Date().getFullYear() + 1 - 2000 + 1 }, (_, index) =>
+    (2000 + index).toString()
+  );
+}
