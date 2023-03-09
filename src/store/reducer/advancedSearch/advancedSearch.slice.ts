@@ -23,6 +23,7 @@ export type Genre =
 
 export interface AdvancedSearchState {
   genres: Genre[];
+  tags: string[];
 }
 
 export const advancedSearch = createSlice({
@@ -30,6 +31,7 @@ export const advancedSearch = createSlice({
 
   initialState: {
     genres: [],
+    tags: [],
   } as AdvancedSearchState,
 
   reducers: {
@@ -44,11 +46,22 @@ export const advancedSearch = createSlice({
     removeAllGenresFromSearch(state) {
       state.genres = [];
     },
+    toggleTagInSearch(state, action) {
+      const tag = action.payload;
+      if (state.tags.includes(tag)) {
+        state.tags = state.tags.filter((t) => t !== tag);
+      } else {
+        state.tags.push(tag);
+      }
+    },
+    removeAllTagsFromSearch(state) {
+      state.tags = [];
+    },
   },
 
   extraReducers(builder) {},
 });
 
-export const { toggleGenreInSearch } = advancedSearch.actions;
+export const { toggleGenreInSearch, toggleTagInSearch } = advancedSearch.actions;
 
 export default advancedSearch.reducer;

@@ -1,6 +1,9 @@
 import { Chip } from "@material-tailwind/react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/customRedux";
-import { toggleGenreInSearch } from "../../../store/reducer/advancedSearch/advancedSearch.slice";
+import {
+  toggleGenreInSearch,
+  toggleTagInSearch,
+} from "../../../store/reducer/advancedSearch/advancedSearch.slice";
 
 const SearchFilterChips = ({
   searchParams,
@@ -10,7 +13,7 @@ const SearchFilterChips = ({
   resetInput: () => void;
 }) => {
   const dispatch = useAppDispatch();
-  const { genres } = useAppSelector((state) => state.advancedSearch);
+  const { genres, tags } = useAppSelector((state) => state.advancedSearch);
 
   return (
     <div className="mb-3 space-x-2">
@@ -26,7 +29,7 @@ const SearchFilterChips = ({
         />
       )}
 
-      {genres.map((genre) => (
+      {genres.map((genre, index) => (
         <Chip
           value={genre}
           variant="filled"
@@ -35,6 +38,20 @@ const SearchFilterChips = ({
           dismissible={{
             onClose: () => dispatch(toggleGenreInSearch(genre)),
           }}
+          key={(genre + index).toString()}
+        />
+      ))}
+
+      {tags.map((tag, index) => (
+        <Chip
+          value={tag}
+          variant="filled"
+          color="blue-gray"
+          className="mb-2"
+          dismissible={{
+            onClose: () => dispatch(toggleTagInSearch(tag)),
+          }}
+          key={(tag + index).toString()}
         />
       ))}
     </div>

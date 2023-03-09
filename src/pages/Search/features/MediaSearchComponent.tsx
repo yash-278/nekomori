@@ -18,11 +18,15 @@ type MediaSearchComponentProps = {
 };
 
 const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchComponentProps) => {
-  const { genres } = useAppSelector((state) => state.advancedSearch);
+  const {
+    advancedSearch,
+    advancedSearch: { genres, tags },
+  } = useAppSelector((state) => state);
+
   const { checkIfFiltersAreActive } = useCheckFilters(searchParams);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: ["search", searchParams, type, searchParams === "", genres],
+    queryKey: ["search", searchParams, type, searchParams === "", advancedSearch],
     queryFn: async ({ pageParam = 1 }) => {
       return anilistClient.request(getSearchMedia, {
         type: type,
@@ -30,6 +34,7 @@ const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchCom
         page: pageParam,
         ...(searchParams && { search: searchParams }),
         ...(genres.length > 0 && { genres: genres }),
+        ...(tags.length > 0 && { tags: tags }),
       });
     },
     getNextPageParam: (lastPage) => {
