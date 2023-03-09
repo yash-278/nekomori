@@ -1,10 +1,17 @@
 import { Button } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import { MediaType } from "../../../gql/graphql";
 import { getSearchMedia } from "../../../queries/getSearchMedia";
 import { anilistClient } from "../../../queries/graphqlClient";
 import DefaultMediaSearch from "./DefaultMediaSearch.component";
+import { v4 as uuidv4 } from "uuid";
+import MediaCard from "../../../components/Card/MediaCard/MediaCard.component";
+import { useAppSelector } from "../../../hooks/customRedux";
+import useCheckFilters from "../../../hooks/useCheckFilters";
+import SearchFilterChips from "./SearchFilterChips";
 import { v4 as uuidv4 } from "uuid";
 import MediaCard from "../../../components/Card/MediaCard/MediaCard.component";
 import { useAppSelector } from "../../../hooks/customRedux";

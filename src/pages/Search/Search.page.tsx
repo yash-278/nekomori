@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import MyListbox from "../../components/Listbox/listbox.component";
 import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import { SearchState, setSearchType } from "../../store/reducer/search/search.slice";
+import { SearchState, setSearchType } from "../../store/reducer/search/search.slice";
 import { BiCaretLeft } from "react-icons/bi";
 import { useRef, useState } from "react";
 import { debounce } from "../../utils/debounce";
