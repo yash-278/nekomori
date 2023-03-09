@@ -1,8 +1,11 @@
 import { Chip } from "@material-tailwind/react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/customRedux";
+import useCheckFilters from "../../../hooks/useCheckFilters";
 import {
+  clearAllSearch,
   toggleGenreInSearch,
   toggleTagInSearch,
+  toggleYearInSearch,
 } from "../../../store/reducer/advancedSearch/advancedSearch.slice";
 
 const SearchFilterChips = ({
@@ -13,16 +16,16 @@ const SearchFilterChips = ({
   resetInput: () => void;
 }) => {
   const dispatch = useAppDispatch();
-  const { genres, tags } = useAppSelector((state) => state.advancedSearch);
-
+  const { genres, tags, year } = useAppSelector((state) => state.advancedSearch);
+  const { checkIfFiltersAreActive } = useCheckFilters(searchParams);
   return (
-    <div className="mb-3 space-x-2">
+    <div className="mb-3 flex flex-wrap gap-x-2">
       {searchParams && (
         <Chip
           value={searchParams}
           variant="filled"
           color="blue-gray"
-          className="mb-2"
+          className="mb-2 text-xs"
           dismissible={{
             onClose: () => resetInput(),
           }}
@@ -33,7 +36,7 @@ const SearchFilterChips = ({
         <Chip
           value={genre}
           variant="filled"
-          color="blue-gray"
+          color="indigo"
           className="mb-2"
           dismissible={{
             onClose: () => dispatch(toggleGenreInSearch(genre)),
@@ -46,7 +49,7 @@ const SearchFilterChips = ({
         <Chip
           value={tag}
           variant="filled"
-          color="blue-gray"
+          color="indigo"
           className="mb-2"
           dismissible={{
             onClose: () => dispatch(toggleTagInSearch(tag)),
@@ -54,6 +57,30 @@ const SearchFilterChips = ({
           key={(tag + index).toString()}
         />
       ))}
+
+      {year[0] !== "" && (
+        <Chip
+          value={year[0]}
+          variant="filled"
+          color="indigo"
+          className="mb-2"
+          dismissible={{
+            onClose: () => dispatch(toggleYearInSearch(year[0])),
+          }}
+        />
+      )}
+
+      {checkIfFiltersAreActive() && (
+        <Chip
+          value="Clear All"
+          variant="filled"
+          color="blue-gray"
+          className="mb-2"
+          dismissible={{
+            onClose: () => dispatch(clearAllSearch()),
+          }}
+        />
+      )}
     </div>
   );
 };

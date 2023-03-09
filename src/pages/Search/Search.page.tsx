@@ -13,6 +13,7 @@ import StudioSearchComponent from "./features/StudioSearchComponent";
 import StaffSearchComponent from "./features/StaffSearchComponent";
 import SearchPageFilter from "./features/SearchPageFilter";
 import { Genre } from "../../store/reducer/advancedSearch/advancedSearch.slice";
+import { AnimatePresence, motion } from "framer-motion";
 
 export type AdvancedFilterType = {
   genres: Genre[];
@@ -100,9 +101,20 @@ const Search = () => {
         )}
       </div>
 
-      {(type === MediaType.Anime || type === MediaType.Manga) && showFilters && (
-        <SearchPageFilter />
-      )}
+      <AnimatePresence>
+        {(type === MediaType.Anime || type === MediaType.Manga) && showFilters && (
+          <motion.div
+            layout
+            data-isOpen={(type === MediaType.Anime || type === MediaType.Manga) && showFilters}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, scale: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            key="search-filter-dropdown"
+          >
+            <SearchPageFilter />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Renders when it's either of Media Types : Anime | Manga */}
       {(type === MediaType.Anime || type === MediaType.Manga) && (

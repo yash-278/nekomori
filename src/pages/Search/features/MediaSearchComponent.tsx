@@ -20,7 +20,7 @@ type MediaSearchComponentProps = {
 const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchComponentProps) => {
   const {
     advancedSearch,
-    advancedSearch: { genres, tags },
+    advancedSearch: { genres, tags, year },
   } = useAppSelector((state) => state);
 
   const { checkIfFiltersAreActive } = useCheckFilters(searchParams);
@@ -35,6 +35,7 @@ const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchCom
         ...(searchParams && { search: searchParams }),
         ...(genres.length > 0 && { genres: genres }),
         ...(tags.length > 0 && { tags: tags }),
+        ...(year[0] !== "" && { year: year[0] + "%" }),
       });
     },
     getNextPageParam: (lastPage) => {
