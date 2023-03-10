@@ -8,6 +8,7 @@ import { getAllMediaTags } from "../../../queries/getFilterData";
 import { anilistClient } from "../../../queries/graphqlClient";
 import {
   toggleGenreInSearch,
+  toggleSeasonInSearch,
   toggleTagInSearch,
   toggleYearInSearch,
 } from "../../../store/reducer/advancedSearch/advancedSearch.slice";
@@ -16,7 +17,7 @@ import { getYears } from "../../../utils/season";
 export type SearchPageFilterProps = ComponentPropsWithoutRef<"div"> & {};
 
 const SearchPageFilter = (props: SearchPageFilterProps) => {
-  const { genres, tags, year } = useAppSelector((state) => state.advancedSearch);
+  const { genres, tags, year, season } = useAppSelector((state) => state.advancedSearch);
 
   const dispatch = useAppDispatch();
 
@@ -43,6 +44,15 @@ const SearchPageFilter = (props: SearchPageFilterProps) => {
           dispatch(toggleGenreInSearch(value));
         }}
       />
+
+      <SelectModal
+        options={["WINTER", "SPRING", "SUMMER", "FALL"]}
+        title={"Season"}
+        selectedOptions={season}
+        toggleFunction={(value) => {
+          dispatch(toggleSeasonInSearch(value));
+        }}
+      />
       {fetchedTags?.MediaTagCollection && (
         <SelectModal
           options={convertTagsToArray(fetchedTags)}
@@ -53,6 +63,7 @@ const SearchPageFilter = (props: SearchPageFilterProps) => {
           }}
         />
       )}
+
       <SelectModal
         options={getYears().reverse()}
         title={"Year"}

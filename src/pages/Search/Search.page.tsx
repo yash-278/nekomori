@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import MyListbox from "../../components/Listbox/listbox.component";
 import { useAppDispatch, useAppSelector } from "../../hooks/customRedux";
 import { SearchState, setSearchType } from "../../store/reducer/search/search.slice";
-import { SearchState, setSearchType } from "../../store/reducer/search/search.slice";
 import { BiCaretLeft } from "react-icons/bi";
 import { useRef, useState } from "react";
 import { debounce } from "../../utils/debounce";
@@ -50,7 +49,14 @@ const Search = () => {
   }
 
   return (
-    <div className="bg-accent-gray-black px-4 text-white">
+    <motion.div
+      className="bg-accent-gray-black px-4 text-white"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 1 } }}
+      variants={{ visible: { transition: { staggerChildren: 1 } } }}
+      key="search-page"
+    >
       <Link
         to="/"
         className="navbar-brand hidden cursor-pointer text-2xl font-bold text-gray-100 no-underline hover:text-gray-200 lg:block"
@@ -80,7 +86,7 @@ const Search = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="flex gap-x-4">
+      <div className="flex items-center gap-x-4">
         <input
           type="text"
           onChange={(e) => {
@@ -91,14 +97,19 @@ const Search = () => {
           placeholder="Search"
         />
         {(type === MediaType.Anime || type === MediaType.Manga) && (
-          <button
-            className="rounded-md bg-accent-gray-darkest px-2 text-2xl text-accent-gray shadow-md drop-shadow-md"
-            onClick={() => {
-              setShowFilters(!showFilters);
-            }}
+          <motion.div
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <GoSettings />
-          </button>
+            <button
+              className="cursor-pointer rounded-md bg-accent-gray-darkest p-2 text-2xl text-accent-gray shadow-md drop-shadow-md"
+              onClick={() => {
+                setShowFilters(!showFilters);
+              }}
+            >
+              <GoSettings />
+            </button>
+          </motion.div>
         )}
       </div>
 
@@ -106,11 +117,12 @@ const Search = () => {
         {(type === MediaType.Anime || type === MediaType.Manga) && showFilters && (
           <motion.div
             layout
-            data-isOpen={(type === MediaType.Anime || type === MediaType.Manga) && showFilters}
+            data-isopen={(type === MediaType.Anime || type === MediaType.Manga) && showFilters}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, scale: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             key="search-filter-dropdown"
+            className="overflow-y-hidden"
           >
             <SearchPageFilter />
           </motion.div>
@@ -136,7 +148,7 @@ const Search = () => {
       {type === "STAFF" && (
         <StaffSearchComponent type={type} searchParams={searchParams} resetInput={resetInput} />
       )}
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,17 +1,10 @@
 import { Button } from "@material-tailwind/react";
-import { Button } from "@material-tailwind/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import VerticalCardLoader from "../../../components/Card/MediaCard/VerticalCard.loader";
 import { MediaType } from "../../../gql/graphql";
 import { getSearchMedia } from "../../../queries/getSearchMedia";
 import { anilistClient } from "../../../queries/graphqlClient";
 import DefaultMediaSearch from "./DefaultMediaSearch.component";
-import { v4 as uuidv4 } from "uuid";
-import MediaCard from "../../../components/Card/MediaCard/MediaCard.component";
-import { useAppSelector } from "../../../hooks/customRedux";
-import useCheckFilters from "../../../hooks/useCheckFilters";
-import SearchFilterChips from "./SearchFilterChips";
 import { v4 as uuidv4 } from "uuid";
 import MediaCard from "../../../components/Card/MediaCard/MediaCard.component";
 import { useAppSelector } from "../../../hooks/customRedux";
@@ -27,7 +20,7 @@ type MediaSearchComponentProps = {
 const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchComponentProps) => {
   const {
     advancedSearch,
-    advancedSearch: { genres, tags, year },
+    advancedSearch: { genres, tags, year, season },
   } = useAppSelector((state) => state);
 
   const { checkIfFiltersAreActive } = useCheckFilters(searchParams);
@@ -43,6 +36,7 @@ const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchCom
         ...(genres.length > 0 && { genres: genres }),
         ...(tags.length > 0 && { tags: tags }),
         ...(year[0] !== "" && { year: year[0] + "%" }),
+        ...(season.length > 0 && { season: season[0] }),
       });
     },
     getNextPageParam: (lastPage) => {

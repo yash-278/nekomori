@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { MediaSeason } from "../../../gql/graphql";
 
 export type Genre =
   | "Action"
@@ -25,6 +26,7 @@ export interface AdvancedSearchState {
   genres: Genre[];
   tags: string[];
   year: string[];
+  season: MediaSeason[];
 }
 
 export const advancedSearch = createSlice({
@@ -34,6 +36,7 @@ export const advancedSearch = createSlice({
     genres: [],
     tags: [],
     year: [""],
+    season: [],
   } as AdvancedSearchState,
 
   reducers: {
@@ -61,17 +64,33 @@ export const advancedSearch = createSlice({
         state.year = [""];
       }
     },
+    toggleSeasonInSearch(state, action) {
+      const season = action.payload;
+      if (state.season.includes(season)) {
+        state.season = state.season.filter((s) => s !== season);
+      } else if (state.season.length === 0) {
+        state.season.push(season);
+      } else {
+        state.season = [season];
+      }
+    },
     clearAllSearch(state) {
       state.genres = [];
       state.tags = [];
       state.year = [""];
+      state.season = [];
     },
   },
 
   extraReducers(builder) {},
 });
 
-export const { toggleGenreInSearch, toggleTagInSearch, toggleYearInSearch, clearAllSearch } =
-  advancedSearch.actions;
+export const {
+  toggleGenreInSearch,
+  toggleTagInSearch,
+  toggleYearInSearch,
+  toggleSeasonInSearch,
+  clearAllSearch,
+} = advancedSearch.actions;
 
 export default advancedSearch.reducer;

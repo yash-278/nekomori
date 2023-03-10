@@ -49,9 +49,12 @@ export default function MyListbox({
 
                 <Transition
                   show={open}
+                  enter="transition ease-out duration-100"
+                  enterFrom="opacity-0 -translate-y-10"
+                  enterTo="opacity-100 translate-y-0"
                   leave="transition ease-in duration-100"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 -translate-y-10"
                   className="absolute z-50 mt-1 w-full rounded-md bg-accent-gray-darkest shadow-lg lg:bg-accent-gray-darker"
                 >
                   <Listbox.Options
