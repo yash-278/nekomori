@@ -56,7 +56,7 @@ const MediaSearchComponent = ({ searchParams, type, resetInput }: MediaSearchCom
   }
 
   return (
-    <div className="my-4">
+    <div className="my-4 mx-auto max-w-7xl">
       {!checkIfFiltersAreActive() && <DefaultMediaSearch type={type} />}
 
       {/* Search Results */}
