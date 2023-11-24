@@ -12,6 +12,7 @@ import Search from "./pages/Search/Search.page";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { store } from "./store/store/store";
+import { AnimatePresence } from "framer-motion";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -28,7 +29,9 @@ function App() {
       {/* Provide the client to your App */}
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <AnimatePresence mode="wait">
+            <RouterProvider router={router} />
+          </AnimatePresence>
           <ReactQueryDevtools initialIsOpen={true} />
         </QueryClientProvider>
       </Provider>
@@ -39,33 +42,33 @@ function App() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Home key={location.pathname} />,
     children: [
       {
         path: "/",
-        element: <Activity />,
+        element: <Activity key={location.pathname} />,
       },
       {
         path: "/schedule",
-        element: <Schedule />,
+        element: <Schedule key={location.pathname} />,
       },
       {
         path: "/anime",
-        element: <Anime />,
+        element: <Anime key={location.pathname} />,
       },
       {
         path: "/manga",
-        element: <Manga />,
+        element: <Manga key={location.pathname} />,
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <Profile key={location.pathname} />,
       },
     ],
   },
   {
     path: "/search",
-    element: <Search />,
+    element: <Search key="/search" />,
   },
 ]);
 

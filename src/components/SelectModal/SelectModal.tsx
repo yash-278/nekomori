@@ -62,7 +62,7 @@ const Modal = ({
     >
       <div onClick={closeModal} className="z-20 h-full"></div>
       <motion.div
-        className="fixed inset-0 z-30 my-auto mx-5 h-2/3 overflow-y-auto rounded-md bg-accent-gray-black"
+        className="fixed inset-0 z-30 my-auto mx-5 h-fit max-h-96 overflow-y-auto rounded-md bg-accent-gray-black"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{

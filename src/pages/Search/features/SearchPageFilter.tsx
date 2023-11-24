@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { ComponentPropsWithoutRef } from "react";
 import SelectModal from "../../../components/SelectModal/SelectModal";
 import { allGenres } from "../../../constants/genres";
-import { GetAllMediaTagsQuery } from "../../../gql/graphql";
+import { GetAllMediaTagsQuery, MediaSeason } from "../../../gql/graphql";
 import { useAppDispatch, useAppSelector } from "../../../hooks/customRedux";
 import { getAllMediaTags } from "../../../queries/getFilterData";
 import { anilistClient } from "../../../queries/graphqlClient";
 import {
   toggleGenreInSearch,
+  toggleSeasonInSearch,
   toggleTagInSearch,
   toggleYearInSearch,
 } from "../../../store/reducer/advancedSearch/advancedSearch.slice";
@@ -16,7 +17,7 @@ import { getYears } from "../../../utils/season";
 export type SearchPageFilterProps = ComponentPropsWithoutRef<"div"> & {};
 
 const SearchPageFilter = (props: SearchPageFilterProps) => {
-  const { genres, tags, year } = useAppSelector((state) => state.advancedSearch);
+  const { genres, tags, year, season } = useAppSelector((state) => state.advancedSearch);
 
   const dispatch = useAppDispatch();
 
@@ -33,7 +34,7 @@ const SearchPageFilter = (props: SearchPageFilterProps) => {
   };
 
   return (
-    <div className="scrollbar-hide flex snap-x space-x-4 overflow-y-clip overflow-x-scroll pt-5">
+    <div className="scrollbar-hide flex snap-x space-x-4 overflow-y-clip overflow-x-scroll pt-5 xl:pt-0">
       <SelectModal
         options={allGenres}
         title={"Genres"}
@@ -41,6 +42,15 @@ const SearchPageFilter = (props: SearchPageFilterProps) => {
         selectedOptions={genres}
         toggleFunction={(value) => {
           dispatch(toggleGenreInSearch(value));
+        }}
+      />
+
+      <SelectModal
+        options={[MediaSeason.Winter, MediaSeason.Spring, MediaSeason.Summer, MediaSeason.Fall]}
+        title={"Season"}
+        selectedOptions={season}
+        toggleFunction={(value) => {
+          dispatch(toggleSeasonInSearch(value));
         }}
       />
       {fetchedTags?.MediaTagCollection && (
@@ -53,6 +63,7 @@ const SearchPageFilter = (props: SearchPageFilterProps) => {
           }}
         />
       )}
+
       <SelectModal
         options={getYears().reverse()}
         title={"Year"}

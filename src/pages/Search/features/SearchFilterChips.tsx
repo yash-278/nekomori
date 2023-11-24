@@ -4,6 +4,7 @@ import useCheckFilters from "../../../hooks/useCheckFilters";
 import {
   clearAllSearch,
   toggleGenreInSearch,
+  toggleSeasonInSearch,
   toggleTagInSearch,
   toggleYearInSearch,
 } from "../../../store/reducer/advancedSearch/advancedSearch.slice";
@@ -16,7 +17,7 @@ const SearchFilterChips = ({
   resetInput: () => void;
 }) => {
   const dispatch = useAppDispatch();
-  const { genres, tags, year } = useAppSelector((state) => state.advancedSearch);
+  const { genres, tags, year, season } = useAppSelector((state) => state.advancedSearch);
   const { checkIfFiltersAreActive } = useCheckFilters(searchParams);
   return (
     <div className="mb-3 flex flex-wrap gap-x-2">
@@ -70,6 +71,17 @@ const SearchFilterChips = ({
         />
       )}
 
+      {season.length > 0 && (
+        <Chip
+          value={season[0]}
+          variant="filled"
+          color="indigo"
+          className="mb-2"
+          dismissible={{
+            onClose: () => dispatch(toggleSeasonInSearch(season[0])),
+          }}
+        />
+      )}
       {checkIfFiltersAreActive() && (
         <Chip
           value="Clear All"
