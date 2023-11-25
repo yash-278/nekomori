@@ -50,7 +50,7 @@ const CharacterSearchComponent = ({
     );
   }
   return (
-    <div className="my-5">
+    <div className="my-5 xl:mx-auto xl:max-w-7xl">
       {searchParams && (
         <Chip
           value={searchParams}
